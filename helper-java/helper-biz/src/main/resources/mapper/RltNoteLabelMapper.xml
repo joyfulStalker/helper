@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="helper.mapper.RltNoteLabelMapper">
+    <resultMap id="BaseResultMap" type="helper.entity.RltLabel">
+        <id column="id" property="id"/>
+        <result column="tt_note_id" property="ttNoteId"/>
+        <result column="business_id" property="businessId"/>
+        <result column="business_table" property="businessTable"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_by_name" property="createByName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_by_name" property="updateByName"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+
+    <select id="getLabelList" resultType="helper.vo.note.LabelVo">
+        SELECT
+        tl.id labelId,
+        tl.label_name,
+        tl.business_type
+        FROM
+        tt_label tl
+        LEFT JOIN rlt_label rnl ON tl.id = rnl.tt_label_id
+        AND rnl.is_delete = 0
+        WHERE
+        rnl.business_id = #{businessId}
+        AND tl.business_type = #{labelEnum.businessType}
+        AND rnl.business_table = #{labelEnum.businessTable}
+    </select>
+</mapper>

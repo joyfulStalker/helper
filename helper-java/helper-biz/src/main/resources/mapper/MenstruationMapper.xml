@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="helper.mapper.MenstruationMapper">
+    <resultMap id="BaseResultMap" type="helper.entity.Menstruation">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_by_name" property="createByName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_by_name" property="updateByName"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_delete" property="isDelete"/>
+    </resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, start_date AS startDate, end_date AS endDate, create_by AS createBy, create_by_name AS createByName, create_time AS createTime, update_by AS updateBy, update_by_name AS updateByName, update_time AS updateTime, is_delete AS isDelete
+    </sql>
+
+    <select id="list" resultType="helper.entity.Menstruation">
+        SELECT
+        id,
+        start_date,
+        end_date
+        FROM
+        tt_menstruation tmt
+        WHERE
+        is_delete = 0
+        <if test="queryVO.startDate != null">
+            and tmt.start_date >= #{queryVO.startDate}
+        </if>
+        <if test="queryVO.endDate != null">
+            and tmt.end_date &lt;= #{queryVO.endDate}
+        </if>
+    </select>
+    <select id="taskRemind" resultType="helper.vo.more.MenstruationRemindDTO">
+        SELECT
+            tm.user_id,
+            tm.start_date,
+            tm.end_date,
+            tm.is_ache,
+            tu.user_nick,
+            tu.mail
+        FROM
+            tt_menstruation tm
+            LEFT JOIN tt_user tu ON tm.user_id = tu.id
+    </select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="helper.mapper.RemindMapper">
+	<resultMap id="BaseResultMap" type="helper.entity.Remind">
+		<id column="id" property="id" />
+		<result column="mobile_number" property="mobileNumber" />
+		<result column="mail" property="mail" />
+		<result column="remind_date" property="remindDate" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="is_anonymous" property="isAnonymous" />
+		<result column="create_by" property="createBy" />
+		<result column="create_by_name" property="createByName" />
+		<result column="create_time" property="createTime" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_by_name" property="updateByName" />
+		<result column="update_time" property="updateTime" />
+		<result column="is_delete" property="isDelete" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        id, mobile_number AS mobileNumber, mail, remind_date AS remindDate, subject, content, is_anonymous AS isAnonymous, create_by AS createBy, create_by_name AS createByName, create_time AS createTime, update_by AS updateBy, update_by_name AS updateByName, update_time AS updateTime, is_delete AS isDelete
+    </sql>
+</mapper>

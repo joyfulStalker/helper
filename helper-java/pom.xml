@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>lsl.mint</groupId>
+    <artifactId>helper</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+    <modules>
+        <module>helper-biz</module>
+        <module>helper-test</module>
+        <module>helper-payment</module>
+        <module>helper-common</module>
+    </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.5.RELEASE</version>
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+        <lombok.version>1.18.12</lombok.version>
+        <mysql.version>8.0.21</mysql.version>
+        <aspectj.version>1.9.4</aspectj.version>
+        <junit.version>4.12</junit.version>
+        <mybatis.plus.version>3.1.1</mybatis.plus.version>
+        <spring.driud.version>1.1.16</spring.driud.version>
+        <aliyun.sdk.core>4.0.6</aliyun.sdk.core>
+        <aliyun.sdk.dysmsapi>1.1.0</aliyun.sdk.dysmsapi>
+        <fastjson.version>1.2.61</fastjson.version>
+        <springfox.swagger.version>2.9.2</springfox.swagger.version>
+        <swagger.bootstrap.ui.version>1.9.6</swagger.bootstrap.ui.version>
+        <hutool.all.version>5.1.1</hutool.all.version>
+        <spring.jasypt.version>2.1.2</spring.jasypt.version>
+        <apache.any23.version>2.3</apache.any23.version>
+        <mint.poi.tool>1.0</mint.poi.tool>
+        <google.guava.version>29.0-jre</google.guava.version>
+        <redis.clients.version>3.3.0</redis.clients.version>
+        <helper.common.version>1.0</helper.common.version>
+        <commons.lang3.version>3.11</commons.lang3.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <!--springboot程序测试依赖，如果是自动创建项目默认添加-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${spring.driud.version}</version>
+            </dependency>
+            <!-- 阿里云短信服务 -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun.sdk.core}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun.sdk.dysmsapi}</version>
+            </dependency>
+            <!--fastJson支持-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!-- lombok支持 -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- SpringFox-swagger-ui -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.swagger.version}</version>
+            </dependency>
+            <!-- http://localhost:9000/swagger-ui.html -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.swagger.version}</version>
+            </dependency>
+            <!-- 增强 http://localhost:9000/doc.html 可以与上面的页面共存-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>${swagger.bootstrap.ui.version}</version>
+            </dependency>
+            <!-- 工具-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.all.version}</version>
+            </dependency>
+
+            <!-- aop -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <!-- 邮箱 -->
+            <!--        <dependency>-->
+            <!--            <groupId>javax.activation</groupId>-->
+            <!--            <artifactId>activation</artifactId>-->
+            <!--            <version>1.1.1</version>-->
+            <!--        </dependency>-->
+            <!--        <dependency>-->
+            <!--            <groupId>javax.mail</groupId>-->
+            <!--            <artifactId>mail</artifactId>-->
+            <!--            <version>1.4.7</version>-->
+            <!--        </dependency>-->
+
+            <!-- SpringBoot Mail -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <!-- 模板 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-freemarker</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!-- 加密-->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${spring.jasypt.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.any23/apache-any23-encoding -->
+            <dependency>
+                <groupId>org.apache.any23</groupId>
+                <artifactId>apache-any23-encoding</artifactId>
+                <version>${apache.any23.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.lsl.mint</groupId>
+                <artifactId>poi-tool</artifactId>
+                <version>${mint.poi.tool}</version>
+            </dependency>
+
+            <!-- 布隆过滤器 -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google.guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+            <!-- 2.9.0使用者最多，该版本set命令支持多参数 -->
+            <!-- 3.3.0该版本已经改进，其他参数可通过SetParams来设置 -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${redis.clients.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+
+                <configuration>
+                    <!--
+                        spring-boot工程打包编译时，会生成两种jar包，一种是普通的jar，另一种是可执行jar。
+                        默认情况下，这两种jar的名称相同，在不做配置的情况下，普通的jar先生成，可执行jar后生成，
+                        所以可执行jar会覆盖普通的jar。
+                        <classifier>exec</classifier> 指定可执行文件以exec结尾
+                    -->
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatisplus-maven-plugin</artifactId>
+                <version>1.0</version>
+                <configuration>
+                    <!-- 输出目录(默认java.io.tmpdir) -->
+                    <outputDir>/Users/visionet/Downloads/code</outputDir>
+                    <!-- 是否覆盖同名文件(默认false) -->
+                    <fileOverride>true</fileOverride>
+                    <!-- mapper.xml 中添加二级缓存配置(默认true) -->
+                    <enableCache>true</enableCache>
+                    <!-- 开发者名称 -->
+                    <author>liuSongLin</author>
+                    <!-- 是否开启 ActiveRecord 模式(默认true) -->
+                    <activeRecord>false</activeRecord>
+                    <!-- 数据源配置，( **必配** ) -->
+                    <dataSource>
+                        <driverName>com.mysql.cj.jdbc.Driver</driverName>
+                        <url>jdbc:mysql://localhost:3306/mytest?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;allowPublicKeyRetrieval=true</url>
+                        <username>root</username>
+                        <password>root</password>
+                    </dataSource>
+                    <strategy>
+                        <!-- 字段生成策略，四种类型，从名称就能看出来含义：
+                            nochange(默认),
+                            underline_to_camel,(下划线转驼峰)
+                            remove_prefix,(去除第一个下划线的前部分，后面保持不变)
+                            remove_prefix_and_camel(去除第一个下划线的前部分，后面转驼峰) -->
+                        <naming>underline_to_camel</naming>
+                        <!-- 表前缀 -->
+                        <tablePrefix>bmd_</tablePrefix>
+                        <!--Entity中的ID生成策略（默认 id_worker）-->
+                        <idGenType>auto</idGenType>
+                        <!--自定义超类-->
+                        <!--<superServiceClass>com.baomidou.base.BaseService</superServiceClass>-->
+                        <!-- 要包含的表 与exclude 二选一配置-->
+                        <!--<include>-->
+                        <!--<property>sec_user</property>-->
+                        <!--<property>table1</property>-->
+                        <!--</include>-->
+                        <!-- 要排除的表 -->
+                        <!--<exclude>-->
+                        <!--<property>schema_version</property>-->
+                        <!--</exclude>-->
+                    </strategy>
+                    <packageInfo>
+                        <!-- 父级包名称，如果不写，下面的service等就需要写全包名(默认com.baomidou) -->
+                        <parent>payment</parent>
+                        <!--service包名(默认service)-->
+                        <service>service</service>
+                        <!--serviceImpl包名(默认service.impl)-->
+                        <serviceImpl>service.impl</serviceImpl>
+                        <!--entity包名(默认entity)-->
+                        <entity>entity</entity>
+                        <!--mapper包名(默认mapper)-->
+                        <mapper>mapper</mapper>
+                        <!--xml包名(默认mapper.xml)-->
+                        <xml>mapper.xml</xml>
+                    </packageInfo>
+                    <template>
+                        <!-- 定义controller模板的路径 -->
+                        <!--<controller>/template/controller1.java.vm</controller>-->
+                    </template>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

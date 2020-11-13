@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="helper.mapper.MessageMapper">
+	<resultMap id="BaseResultMap" type="helper.entity.Message">
+		<id column="id" property="id" />
+		<result column="requester" property="requester" />
+		<result column="request_type" property="requestType" />
+		<result column="verification_code" property="verificationCode" />
+		<result column="business_type" property="businessType" />
+		<result column="send_time" property="sendTime" />
+		<result column="effective_duration" property="effectiveDuration" />
+		<result column="send_ip" property="sendIp" />
+		<result column="create_by" property="createBy" />
+		<result column="create_by_name" property="createByName" />
+		<result column="create_time" property="createTime" />
+		<result column="update_by" property="updateBy" />
+		<result column="update_by_name" property="updateByName" />
+		<result column="update_time" property="updateTime" />
+		<result column="is_delete" property="isDelete" />
+	</resultMap>
+
+    <!-- 通用查询结果列-->
+    <sql id="Base_Column_List">
+        id, requester, request_type AS requestType, verification_code AS verificationCode, business_type AS businessType, send_time AS sendTime, effective_duration AS effectiveDuration, send_ip AS sendIp, create_by AS createBy, create_by_name AS createByName, create_time AS createTime, update_by AS updateBy, update_by_name AS updateByName, update_time AS updateTime, is_delete AS isDelete
+    </sql>
+</mapper>

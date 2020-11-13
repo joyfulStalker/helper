@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="helper.mapper.PaymentFeeMapper">
+
+    <select id="flowList" resultType="helper.entity.PaymentFee">
+    SELECT
+        T.id,
+        T.flow_no,
+        T.fee_type,
+        T.paid_type,
+        T.total_cost,
+        T.actual_paid,
+        T.is_settled,
+        T.pay_time,
+        T.remark,
+        T.drawee,
+        T.payee,
+        T.version,
+        T.created_date
+    FROM
+        (
+        SELECT
+            id,
+            flow_no,
+            fee_type,
+            paid_type,
+            total_cost,
+            actual_paid,
+            is_settled,
+            pay_time,
+            remark,
+            drawee,
+            payee,
+            version,
+            created_date
+        FROM
+            payment_fee
+        WHERE
+            fee_type = #{queryVo.feeType}
+            <if test="queryVo.flowNo != null">
+                AND flow_no = #{queryVo.flowNo}
+            </if>
+            <if test="queryVo.paidType != null">
+                AND paid_type = #{queryVo.paidType}
+            </if>
+            <if test="queryVo.isSettled != null">
+                AND is_settled = #{queryVo.isSettled}
+            </if>
+            <if test="queryVo.startPayTime != null">
+                AND pay_time &gt;= date_format(#{queryVo.startPayTime},'%Y-%m-%d')
+            </if>
+            <if test="queryVo.endPayTime != null">
+                AND date_format(pay_time,'%Y-%m-%d') &lt;= #{queryVo.endPayTime}
+            </if>
+            <if test="queryVo.drawee != null and queryVo.drawee != ''">
+                AND drawee = #{queryVo.drawee}
+            </if>
+            <if test="queryVo.payee != null and queryVo.payee != ''">
+                AND payee = #{queryVo.payee}
+            </if>
+        GROUP BY
+            flow_no,
+            version
+        ORDER BY
+            flow_no,
+            version DESC
+        ) T
+    GROUP BY
+        flow_no
+    ORDER BY
+        T.id DESC
+    </select>
+</mapper>
