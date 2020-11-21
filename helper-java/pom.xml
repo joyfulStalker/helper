@@ -172,11 +172,11 @@
                 <artifactId>apache-any23-encoding</artifactId>
                 <version>${apache.any23.version}</version>
             </dependency>
-            <dependency>
-                <groupId>cn.lsl.mint</groupId>
-                <artifactId>poi-tool</artifactId>
-                <version>${mint.poi.tool}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>cn.lsl.mint</groupId>-->
+<!--                <artifactId>poi-tool</artifactId>-->
+<!--                <version>${mint.poi.tool}</version>-->
+<!--            </dependency>-->
 
             <!-- 布隆过滤器 -->
             <dependency>

@@ -49,10 +49,10 @@
             <artifactId>apache-any23-encoding</artifactId>
 
         </dependency>
-        <dependency>
-            <groupId>cn.lsl.mint</groupId>
-            <artifactId>poi-tool</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.lsl.mint</groupId>-->
+<!--            <artifactId>poi-tool</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
