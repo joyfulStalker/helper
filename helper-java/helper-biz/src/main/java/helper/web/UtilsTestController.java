@@ -3,16 +3,16 @@ package helper.web;
 import com.google.common.collect.Lists;
 import common.common.HttpMethod;
 import common.common.base.R;
-import common.utils.ExcelUtils;
+//import common.utils.ExcelUtils;
 import helper.service.UtilsTestService;
-import helper.vo.test.EntityTest;
+//import helper.vo.test.EntityTest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiOperationSupport;
 import io.swagger.annotations.ApiSort;
-import office.enums.PatternStyle;
-import office.tools.ExcelExportUtils;
-import org.apache.poi.ss.usermodel.Workbook;
+//import office.enums.PatternStyle;
+//import office.tools.ExcelExportUtils;
+//import org.apache.poi.ss.usermodel.Workbook;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -56,27 +56,27 @@ public class UtilsTestController {
         return R.of(utilsTestService.txtAutoIdentify(file));
     }
 
-
-    @ResponseBody
-    @PostMapping("/txtExcelUtil")
-    @ApiOperation(value = "2、测试Excel工具",
-            httpMethod = HttpMethod.POST,
-            response = R.class,
-            notes = "2、测试Excel工具",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 2)
-    public void txtExcelUtil(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        List<EntityTest> list = Lists.newArrayList();
-
-        for (int i = 0; i < 10; i++) {
-            list.add(new EntityTest("张三" + i, i + 10, i / 2 == 1 ? "男" : "女", ""));
-        }
-        Workbook workbook = ExcelExportUtils.exportExcel(EntityTest.class, list, PatternStyle.XLSX, "sheet1", "测试表");
-        ExcelUtils.setExcelExportContent("CE", request, response);
-        workbook.write(response.getOutputStream());
-    }
+//
+//    @ResponseBody
+//    @PostMapping("/txtExcelUtil")
+//    @ApiOperation(value = "2、测试Excel工具",
+//            httpMethod = HttpMethod.POST,
+//            response = R.class,
+//            notes = "2、测试Excel工具",
+//            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+//            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//    @ApiOperationSupport(order = 2)
+//    public void txtExcelUtil(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//
+//        List<EntityTest> list = Lists.newArrayList();
+//
+//        for (int i = 0; i < 10; i++) {
+//            list.add(new EntityTest("张三" + i, i + 10, i / 2 == 1 ? "男" : "女", ""));
+//        }
+//        Workbook workbook = ExcelExportUtils.exportExcel(EntityTest.class, list, PatternStyle.XLSX, "sheet1", "测试表");
+//        ExcelUtils.setExcelExportContent("CE", request, response);
+//        workbook.write(response.getOutputStream());
+//    }
 
 
 //    
