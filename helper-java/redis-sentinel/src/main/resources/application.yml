@@ -1,0 +1,20 @@
+server:
+  port: 9004
+spring:
+  sentinel:
+    enable: true
+  redis:
+    sentinel:
+      master: mymaster
+      nodes:
+        - 192.168.1.200:26379
+        - 192.168.1.200:26380
+        - 192.168.1.200:26381
+      password: redis123
+#logging:
+#  level:
+#    org.springframework.web: trace
+swagger:
+  path-name: helper
+  package-name: helper
+  application-name: 小助手
