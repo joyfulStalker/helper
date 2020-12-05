@@ -10,9 +10,7 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.*;
-import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -21,7 +19,6 @@ import redis.clients.jedis.JedisPoolAbstract;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisSentinelPool;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -72,6 +69,7 @@ public class RedisConfig {
                 return new JedisPool(jedisPoolConfig, host, port, timeout);
             }
         } else {
+
             List<String> nodes = redisProperties.getSentinel().getNodes();
             Set<String> nodeSets = new HashSet<>();
             for (String node : nodes) {
@@ -80,55 +78,13 @@ public class RedisConfig {
             JedisSentinelPool jedisSentinelPool = new JedisSentinelPool(
                     redisProperties.getSentinel().getMaster()
                     , nodeSets
-                    , getJedisPoolConfig()
-                    , StringUtils.isBlank(redisProperties.getSentinel().getPassword()) ? "" : redisProperties.getSentinel().getPassword());
+                    , redisProperties.getPassword()
+                    , redisProperties.getSentinel().getPassword()
+            );
             return jedisSentinelPool;
         }
 
     }
-
-    @Bean
-    public JedisConnectionFactory jedisConnectionFactory() {
-        if (!sentinelEnable) {
-            RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-            redisStandaloneConfiguration.setHostName(host);
-            redisStandaloneConfiguration.setPort(port);
-            redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
-
-            JedisClientConfiguration.JedisClientConfigurationBuilder jedisClientConfiguration = JedisClientConfiguration.builder();
-            jedisClientConfiguration.connectTimeout(Duration.ofMillis(timeout));
-            jedisClientConfiguration.usePooling();
-            return new JedisConnectionFactory(redisStandaloneConfiguration, jedisClientConfiguration.build());
-        } else {
-            return new JedisConnectionFactory(getRedisSentinelConfiguration(), getJedisPoolConfig());
-        }
-    }
-
-    //    @Bean
-    public RedisSentinelConfiguration getRedisSentinelConfiguration() {
-        List<String> nodes = redisProperties.getSentinel().getNodes();
-        Set<RedisNode> redisNodes = new HashSet<>(nodes.size());
-        for (String node : nodes) {
-            String[] split = StringUtils.split(node, ":");
-            redisNodes.add(new RedisNode(split[0], Integer.parseInt(split[1])));
-        }
-        RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration();
-        redisSentinelConfiguration.setMaster(redisProperties.getSentinel().getMaster());
-        redisSentinelConfiguration.setSentinels(redisNodes);
-        redisSentinelConfiguration.setSentinelPassword(StringUtils.isBlank(redisProperties.getSentinel().getPassword()) ? "" : redisProperties.getSentinel().getPassword());
-        return redisSentinelConfiguration;
-    }
-
-    @Bean
-    public JedisPoolConfig getJedisPoolConfig() {
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxIdle(maxIdle);
-        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        // 是否启用pool的jmx管理功能, 默认true
-        jedisPoolConfig.setJmxEnabled(true);
-        return jedisPoolConfig;
-    }
-
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
@@ -166,7 +122,6 @@ public class RedisConfig {
     }
 
     @Bean
-//    @ConditionalOnMissingBean(StringRedisTemplate.class)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(redisConnectionFactory);

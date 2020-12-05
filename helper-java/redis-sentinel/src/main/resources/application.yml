@@ -10,7 +10,13 @@ spring:
         - 192.168.1.200:26379
         - 192.168.1.200:26380
         - 192.168.1.200:26381
-      password: redis123
+      password: s123
+    password: redis123
+    timeout: 666
+    jedis:
+      pool:
+        max-idle: 8
+        max-wait: 10000
 #logging:
 #  level:
 #    org.springframework.web: trace

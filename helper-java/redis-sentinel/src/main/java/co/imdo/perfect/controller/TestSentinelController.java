@@ -1,10 +1,9 @@
 package co.imdo.perfect.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolAbstract;
 
@@ -15,10 +14,22 @@ public class TestSentinelController {
     @Autowired
     private JedisPoolAbstract jedisPool;
 
+    @Autowired
+    private ValueOperations opsForValue;
+
     @ResponseBody
-    @PostMapping("/test1")
-    public String test1() {
+    @GetMapping("/test1")
+    public String test1(@RequestParam("name") String name) {
         Jedis jedis = jedisPool.getResource();
-        return jedis.get("a");
+        String s = jedis.get(name);
+        jedis.close();
+        return s;
+    }
+
+    @ResponseBody
+    @GetMapping("/temp")
+    public String redisTemplate(@RequestParam("name") String name) {
+        Object o = opsForValue.get(name);
+        return o.toString();
     }
 }
