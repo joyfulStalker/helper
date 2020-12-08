@@ -173,11 +173,11 @@
                 <artifactId>apache-any23-encoding</artifactId>
                 <version>${apache.any23.version}</version>
             </dependency>
-<!--            <dependency>-->
-<!--                <groupId>cn.lsl.mint</groupId>-->
-<!--                <artifactId>poi-tool</artifactId>-->
-<!--                <version>${mint.poi.tool}</version>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>cn.lsl.mint</groupId>-->
+            <!--                <artifactId>poi-tool</artifactId>-->
+            <!--                <version>${mint.poi.tool}</version>-->
+            <!--            </dependency>-->
 
             <!-- 布隆过滤器 -->
             <dependency>
@@ -308,4 +308,19 @@
         </plugins>
     </build>
 
+    <!-- 指定spring的仓库
+     解决报错Project ‘org.springframework.boot:spring-boot-starter-parent:2.3.3.RELEASE’
+      not found-->
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/libs-snapshot</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-snapshots</id>
+            <url>http://repo.spring.io/libs-snapshot</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
