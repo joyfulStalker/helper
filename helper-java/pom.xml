@@ -14,16 +14,17 @@
         <module>helper-payment</module>
         <module>helper-common</module>
         <module>redis-sentinel</module>
+        <module>helper-webflux</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.3.RELEASE</version>
+        <version>2.4.0</version>
     </parent>
 
     <properties>
         <java.version>1.8</java.version>
-        <spring.boot.version>2.3.3.RELEASE</spring.boot.version>
+        <spring.boot.version>2.4.0</spring.boot.version>
         <lombok.version>1.18.12</lombok.version>
         <mysql.version>8.0.21</mysql.version>
         <aspectj.version>1.9.4</aspectj.version>
@@ -33,7 +34,7 @@
         <aliyun.sdk.core>4.0.6</aliyun.sdk.core>
         <aliyun.sdk.dysmsapi>1.1.0</aliyun.sdk.dysmsapi>
         <fastjson.version>1.2.61</fastjson.version>
-        <springfox.swagger.version>2.9.2</springfox.swagger.version>
+        <springfox.swagger.version>3.0.0</springfox.swagger.version>
         <swagger.bootstrap.ui.version>1.9.6</swagger.bootstrap.ui.version>
         <hutool.all.version>5.1.1</hutool.all.version>
         <spring.jasypt.version>2.1.2</spring.jasypt.version>
@@ -43,6 +44,7 @@
         <redis.clients.version>3.3.0</redis.clients.version>
         <helper.common.version>1.0</helper.common.version>
         <commons.lang3.version>3.11</commons.lang3.version>
+        <springfox.boot.version>3.0.0</springfox.boot.version>
     </properties>
 
     <dependencyManagement>
@@ -50,6 +52,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
             <!--springboot程序测试依赖，如果是自动创建项目默认添加-->
@@ -116,6 +123,13 @@
                 <artifactId>swagger-bootstrap-ui</artifactId>
                 <version>${swagger.bootstrap.ui.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox.boot.version}</version>
+            </dependency>
+
             <!-- 工具-->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -189,6 +203,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
