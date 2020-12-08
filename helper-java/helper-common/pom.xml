@@ -12,15 +12,11 @@
     <artifactId>helper-common</artifactId>
 
     <dependencies>
-        <!-- SpringFox-swagger-ui -->
+
+        <!-- http://localhost:9000/swagger-ui/index.html -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <!-- http://localhost:9000/swagger-ui.html -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <artifactId>springfox-boot-starter</artifactId>
         </dependency>
         <!-- 增强 http://localhost:9000/doc.html 可以与上面的页面共存-->
         <dependency>
@@ -93,6 +89,10 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
     </dependencies>
     <build>
