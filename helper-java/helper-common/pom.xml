@@ -20,8 +20,9 @@
         </dependency>
         <!-- 增强 http://localhost:9000/doc.html 可以与上面的页面共存-->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
+            <groupId>lsl.mint</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
+            <version>1.9.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
