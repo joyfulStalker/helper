@@ -23,7 +23,6 @@ import payment.vo.PayFlowQueryVo;
  * @since 2020-08-18
  */
 @RestController
-@ApiSort(value = 1)
 @RequestMapping("/paymentFee")
 @Api(value = "记账功能", tags = "记账功能")
 public class PaymentFeeController {

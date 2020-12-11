@@ -37,9 +37,9 @@
         <springfox.swagger.version>3.0.0</springfox.swagger.version>
         <hutool.all.version>5.1.1</hutool.all.version>
         <spring.jasypt.version>2.1.2</spring.jasypt.version>
-        <apache.any23.version>2.3</apache.any23.version>
+        <apache.any23.version>2.4</apache.any23.version>
         <mint.poi.tool>1.0</mint.poi.tool>
-        <google.guava.version>29.0-jre</google.guava.version>
+        <google.guava.version>30.0-jre</google.guava.version>
         <redis.clients.version>3.3.0</redis.clients.version>
         <helper.common.version>1.0</helper.common.version>
         <commons.lang3.version>3.11</commons.lang3.version>

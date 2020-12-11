@@ -103,7 +103,7 @@ class RecursiveAlternateTypeRule extends AlternateTypeRule {
 
     @Override
     public ResolvedType alternateFor(ResolvedType type) {
-        ResolvedType newType = rules.stream().flatMap(rule -> List.of(rule.alternateFor(type))
+        ResolvedType newType = rules.stream().flatMap(rule -> Arrays.asList(rule.alternateFor(type))
                 .stream().filter(alternateType -> alternateType != type)).findFirst()
                 .orElse(type);
         if (appliesTo(newType)) {
