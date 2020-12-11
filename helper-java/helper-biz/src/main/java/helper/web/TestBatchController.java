@@ -5,8 +5,6 @@ import common.common.base.R;
 import helper.service.ITestBatchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiOperationSupport;
-import io.swagger.annotations.ApiSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-03-08
  */
 @RestController
-@ApiSort(value = 5)
 @RequestMapping("/test")
 @Api(value = "测试功能", tags = "测试功能")
 public class TestBatchController {
@@ -39,7 +36,7 @@ public class TestBatchController {
             notes = "结论：mybatisPlus的批量保存可以返回id",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 1)
+
     public R testInsertBatch() {
         testBatchService.testInsertBatch();
         return R.of();
@@ -54,7 +51,7 @@ public class TestBatchController {
             notes = "结论：mybatisPlus的批量更新非数据库字段保存后不丢失",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 2)
+
     public R testBatch() {
         testBatchService.testUpdateBatch();
         return R.of();

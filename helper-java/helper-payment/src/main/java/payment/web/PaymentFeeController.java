@@ -2,7 +2,9 @@ package payment.web;
 
 import common.common.HttpMethod;
 import common.common.base.R;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +39,7 @@ public class PaymentFeeController {
             notes = "1、账务流水记录",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 1)
+
     public R record(@Validated(FeeRecordVo.Check.class) @RequestBody FeeRecordVo recordVo) {
         paymentFeeService.record(recordVo);
         return R.of();
@@ -52,7 +54,7 @@ public class PaymentFeeController {
             notes = "2、账务流水列表",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 2)
+
     public R list(@Validated(PayFlowQueryVo.Check.class) @RequestBody PayFlowQueryVo queryVo) {
         return R.of(paymentFeeService.flowList(queryVo));
     }
@@ -65,7 +67,7 @@ public class PaymentFeeController {
             notes = "3、账务流水详细",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 3)
+
     public R detail(@RequestParam(value = "flowNo") @ApiParam(name = "flowNo", example = "493228364094644224") Long flowNo) {
         return R.of(paymentFeeService.detail(flowNo));
     }

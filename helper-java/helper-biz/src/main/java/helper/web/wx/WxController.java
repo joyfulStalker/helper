@@ -5,8 +5,6 @@ import common.common.base.R;
 import helper.service.IWxService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiOperationSupport;
-import io.swagger.annotations.ApiSort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,13 +22,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/message")
 @Api(value = "微信小程序功能", tags = "微信小程序功能")
-@ApiSort(value = 6)
 public class WxController {
 
     @Autowired
     private IWxService wxService;
 
-//    @Monitor
+    //    @Monitor
     @ResponseBody
     @GetMapping("/getOpenId")
     @ApiOperation(value = "1、获取openId",
@@ -39,7 +36,7 @@ public class WxController {
             notes = "1、获取openId",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 1)
+
     public R sendCodeToUser(@RequestParam String jsCode) {
         return R.of(wxService.getOpenId(jsCode));
     }

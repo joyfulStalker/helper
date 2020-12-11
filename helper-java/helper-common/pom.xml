@@ -18,12 +18,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
         </dependency>
-        <!-- 增强 http://localhost:9000/doc.html 可以与上面的页面共存-->
-        <dependency>
-            <groupId>lsl.mint</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.6</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>

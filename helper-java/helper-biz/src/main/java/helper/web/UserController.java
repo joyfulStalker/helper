@@ -8,8 +8,6 @@ import helper.vo.user.UserRegisterVo;
 import helper.vo.user.UserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiOperationSupport;
-import io.swagger.annotations.ApiSort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/user")
 @Api(value = "用户功能", tags = "用户功能")
-@ApiSort(value = 1)
 public class UserController {
 
     @Autowired
@@ -45,7 +42,7 @@ public class UserController {
             notes = "1、用户手机号或邮箱注册",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 1)
+
     public R register(@Validated(UserRegisterVo.Check.class) @RequestBody UserRegisterVo userRegisterVo) throws Exception {
         userService.register(userRegisterVo);
         return R.of();
@@ -60,7 +57,7 @@ public class UserController {
             notes = "2、用户手机号或邮箱登录",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 2)
+
     public R login(@Validated(UserLoginVo.Check.class) @RequestBody UserLoginVo loginVo, HttpServletRequest request) throws Exception {
         return R.of(userService.login(loginVo, request));
     }

@@ -7,8 +7,6 @@ import helper.vo.note.NoteQueryVo;
 import helper.vo.note.NoteVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiOperationSupport;
-import io.swagger.annotations.ApiSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-07-15
  */
 @RestController
-@ApiSort(value = 8)
+
 @Api(value = "笔记", tags = "笔记")
 @RequestMapping("/note")
 public class TtNoteController {
@@ -39,7 +37,7 @@ public class TtNoteController {
             notes = "1、添加笔记",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 1)
+
     public R saveNote(@Validated(NoteVo.CheckInsert.class) @RequestBody NoteVo noteVo) {
         noteService.saveNote(noteVo);
         return R.of();
@@ -54,7 +52,7 @@ public class TtNoteController {
             notes = "2、笔记列表",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 2)
+
     public R list(@Validated(NoteQueryVo.Check.class) @RequestBody NoteQueryVo queryVo) {
 
         return R.of(noteService.noteList(queryVo));
@@ -69,7 +67,7 @@ public class TtNoteController {
             notes = "3、笔记详情",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ApiOperationSupport(order = 3)
+
     public R detail(@RequestParam Integer id) {
         return R.of(noteService.detail(id));
     }
