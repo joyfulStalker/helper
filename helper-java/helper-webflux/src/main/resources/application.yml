@@ -6,6 +6,13 @@ spring:
     port: 6379
   application:
     name: flux-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: helper
+
+## 访问地址 http://localhost:9003/swagger-ui/index.html
 swagger:
   path-name: flux
   package-name: WebFlux
