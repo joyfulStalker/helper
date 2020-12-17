@@ -17,7 +17,8 @@ public class MongoTestServiceImpl implements MongoTestService {
 
     @Override
     public Flux<TestVo> firstTestMongo() {
-        Flux<TestVo> all = testReposity.findAll();
+        Flux<TestVo> all = testReposity.findAllByName("helper");
+//        Flux<TestVo> all = testReposity.findAll();
         return all;
     }
 }
