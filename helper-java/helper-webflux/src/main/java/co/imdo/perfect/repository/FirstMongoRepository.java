@@ -1,18 +1,18 @@
 package co.imdo.perfect.repository;
 
-import co.imdo.perfect.vo.TestVo;
+import co.imdo.perfect.entity.FirstMongo;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface TestReposity extends ReactiveMongoRepository<TestVo, String> {
+public interface FirstMongoRepository extends ReactiveMongoRepository<FirstMongo, String> {
 
     /**
      * 根据名字查
      *
-     * @param helper
+     * @param name
      * @return
      */
-    Flux<TestVo> findAllByName(String helper);
+    Flux<FirstMongo> findAllByName(String name);
 }

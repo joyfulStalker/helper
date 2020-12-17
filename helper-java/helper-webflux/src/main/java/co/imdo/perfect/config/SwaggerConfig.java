@@ -51,8 +51,8 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .produces(Collections.singleton("application/json"))
-                .consumes(Collections.singleton("application/json"))
+                .produces(Collections.singleton("*"))
+                .consumes(Collections.singleton("*"))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("co.imdo.perfect"))
                 .paths(PathSelectors.any())
