@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
@@ -13,9 +15,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Document("first_mongo")
 public class FirstMongo {
 
-    @Field("_id")
+    @MongoId
     @ApiModelProperty("id")
-    private String id;
+    private ObjectId id;
+
     @ApiModelProperty(value = "name", example = "name")
     private String name;
 

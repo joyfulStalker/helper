@@ -5,6 +5,7 @@ import co.imdo.perfect.repository.FirstMongoRepository;
 import co.imdo.perfect.service.FirstMongoService;
 import co.imdo.perfect.vo.FirstMongoVo;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -48,7 +49,7 @@ public class FirstMongoServiceImpl implements FirstMongoService {
 
     @Override
     public Mono<FirstMongo> firstTestMongoById(String id) {
-        Mono<FirstMongo> byId = firstMongoRepository.findById(id);
+        Mono<FirstMongo> byId = firstMongoRepository.findById(new ObjectId(id));
 
 //        log.info(byId.blockOptional().get().toString());
         return byId;
