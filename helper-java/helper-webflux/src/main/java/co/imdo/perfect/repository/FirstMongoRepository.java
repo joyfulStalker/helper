@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
 @Repository
-public interface FirstMongoRepository extends ReactiveMongoRepository<FirstMongo, ObjectId> {
+public interface FirstMongoRepository extends ReactiveMongoRepository<FirstMongo, String> {
 
     /**
      * 根据名字查

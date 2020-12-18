@@ -5,10 +5,12 @@ import co.imdo.perfect.service.FirstMongoService;
 import co.imdo.perfect.vo.FirstMongoVo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,26 +22,15 @@ public class FirstMongoController {
     private FirstMongoService mongoTestService;
 
 
-    @PostMapping("/firstTestMongo")
-    @ApiOperation(value = "1、firstTestMongo",
+    @PostMapping("/query")
+    @ApiOperation(value = "1、query",
             httpMethod = "POST",
             response = FirstMongo.class,
-            notes = "1、firstTestMongo",
+            notes = "1、query",
             produces = MediaType.TEXT_EVENT_STREAM_VALUE,
-            consumes = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<FirstMongo> firstTestMongo(@RequestBody FirstMongoVo query) {
-        return mongoTestService.firstTestMongo(query);
-    }
-
-    @PostMapping("/firstTestMongoInsert")
-    @ApiOperation(value = "2、firstTestMongoInsert",
-            httpMethod = "POST",
-            response = FirstMongo.class,
-            notes = "2、firstTestMongoInsert",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-            consumes = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono firstTestMongoInsert(@RequestBody Flux<FirstMongoVo> insert) {
-        return mongoTestService.firstTestMongoInsert(insert);
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<FirstMongo> query(@RequestBody FirstMongoVo query) {
+        return mongoTestService.query(query);
     }
 
     @PostMapping("/firstTestMongoInsertOne")
@@ -49,10 +40,9 @@ public class FirstMongoController {
             notes = "2、firstTestMongoInsertOne",
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono firstTestMongoInsertOne(@RequestBody Mono<FirstMongoVo> insert) {
+    public Mono firstTestMongoInsertOne(@RequestBody FirstMongoVo insert) {
         return mongoTestService.firstTestMongoInsertOne(insert);
     }
-
 
     @PostMapping("/firstTestMongoById")
     @ApiOperation(value = "1、firstTestMongoById",
