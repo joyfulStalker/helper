@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
@@ -31,9 +32,19 @@ public class ReactiveRedisController {
             notes = "1、query",
             produces = MediaType.TEXT_EVENT_STREAM_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<String> query() {
-        reactiveStringRedisTemplate.opsForValue().set("key", "hello").subscribe();
-        return reactiveStringRedisTemplate.opsForValue().get("key");
+    public Mono<String> query(@RequestParam String key) {
+        return reactiveStringRedisTemplate.opsForValue().get(key);
+    }
+
+    @GetMapping("/set")
+    @ApiOperation(value = "2、set",
+            httpMethod = "GET",
+            response = FirstMongo.class,
+            notes = "2、set",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<Boolean> set(@RequestParam String key, @RequestParam String value) {
+        return reactiveStringRedisTemplate.opsForValue().set(key, value);
     }
 
 }
