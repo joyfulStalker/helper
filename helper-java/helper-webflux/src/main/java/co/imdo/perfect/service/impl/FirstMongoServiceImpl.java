@@ -27,14 +27,14 @@ public class FirstMongoServiceImpl implements FirstMongoService {
     }
 
     @Override
-    public Mono firstTestMongoInsertOne(FirstMongoVo insert) {
+    public Mono save(FirstMongoVo insert) {
         FirstMongo firstMongo = new FirstMongo();
         BeanUtils.copyProperties(insert, firstMongo);
         return firstMongoRepository.save(firstMongo);
     }
 
     @Override
-    public Mono<FirstMongo> firstTestMongoById(String id) {
+    public Mono<FirstMongo> findById(String id) {
         return firstMongoRepository.findById(id);
     }
 }

@@ -2,7 +2,6 @@ package co.imdo.perfect.service;
 
 import co.imdo.perfect.entity.FirstMongo;
 import co.imdo.perfect.vo.FirstMongoVo;
-import org.bson.types.ObjectId;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,7 +14,19 @@ public interface FirstMongoService {
      */
     Flux<FirstMongo> query(FirstMongoVo query);
 
-    Mono firstTestMongoInsertOne(FirstMongoVo insert);
+    /**
+     * 保存
+     *
+     * @param insert
+     * @return
+     */
+    Mono save(FirstMongoVo insert);
 
-    Mono<FirstMongo> firstTestMongoById(String id);
+    /**
+     * 详情
+     *
+     * @param id
+     * @return
+     */
+    Mono<FirstMongo> findById(String id);
 }

@@ -3,17 +3,22 @@ package co.imdo.perfect.web;
 import co.imdo.perfect.entity.FirstMongo;
 import co.imdo.perfect.service.FirstMongoService;
 import co.imdo.perfect.vo.FirstMongoVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * @author liu
+ */
+@Slf4j
 @RestController
+@RequestMapping("/mongo")
+@Api(value = "mongo示例", tags = "mongo示例")
 public class FirstMongoController {
 
     @Autowired
@@ -31,25 +36,25 @@ public class FirstMongoController {
         return mongoTestService.query(query);
     }
 
-    @PostMapping("/firstTestMongoInsertOne")
-    @ApiOperation(value = "2、firstTestMongoInsertOne",
+    @PostMapping("/save")
+    @ApiOperation(value = "2、save",
             httpMethod = "POST",
             response = FirstMongo.class,
-            notes = "2、firstTestMongoInsertOne",
+            notes = "2、save",
             produces = MediaType.TEXT_EVENT_STREAM_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono firstTestMongoInsertOne(@RequestBody FirstMongoVo insert) {
-        return mongoTestService.firstTestMongoInsertOne(insert);
+        return mongoTestService.save(insert);
     }
 
-    @PostMapping("/firstTestMongoById")
-    @ApiOperation(value = "3、firstTestMongoById",
+    @PostMapping("/findById")
+    @ApiOperation(value = "3、findById",
             httpMethod = "POST",
             response = FirstMongo.class,
-            notes = "3、firstTestMongoById",
+            notes = "3、findById",
             produces = MediaType.TEXT_EVENT_STREAM_VALUE,
             consumes = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono<FirstMongo> firstTestMongoById(@RequestParam("id") String id) {
-        return mongoTestService.firstTestMongoById(id);
+    public Mono<FirstMongo> findById(@RequestParam("id") String id) {
+        return mongoTestService.findById(id);
     }
 }
