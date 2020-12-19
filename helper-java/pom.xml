@@ -13,7 +13,7 @@
         <module>helper-test</module>
         <module>helper-payment</module>
         <module>helper-common</module>
-        <module>redis-sentinel</module>
+        <module>helper-jedis</module>
         <module>helper-webflux</module>
     </modules>
     <parent>
