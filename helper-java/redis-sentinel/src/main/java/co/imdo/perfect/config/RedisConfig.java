@@ -1,6 +1,5 @@
 package co.imdo.perfect.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,7 +18,6 @@ import java.util.Set;
  * @author liu
  * Redis 配置类
  */
-@Slf4j
 @Configuration
 @EnableConfigurationProperties(RedisProperties.class)
 public class RedisConfig {

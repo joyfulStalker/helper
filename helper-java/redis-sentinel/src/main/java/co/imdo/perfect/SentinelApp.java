@@ -18,7 +18,6 @@ public class SentinelApp {
             SpringApplication springApplication = new SpringApplication(SentinelApp.class);
             springApplication.addListeners(new ApplicationPidFileWriter());
             springApplication.run(args);
-            //SpringApplication.run(HelperApp.class, args);
         } catch (Exception e) {
             e.printStackTrace();
         }
