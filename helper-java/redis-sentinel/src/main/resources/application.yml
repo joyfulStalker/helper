@@ -1,26 +1,27 @@
 server:
   port: 9004
 spring:
-  sentinel:
-    enable: true
   redis:
-    sentinel:
-      master: mymaster
-      nodes:
-        - 192.168.1.200:26379
-        - 192.168.1.200:26380
-        - 192.168.1.200:26381
-      password: s123
-    password: redis123
-    timeout: 666
+    ## 单机配置 ## 没密码不要写 password
+    host: localhost
+    port: 6379
+    timeout: 10000
+
+    #    sentinel:
+    #      master: mymaster
+    #      nodes:
+    #        - 192.168.1.200:26379
+    #        - 192.168.1.200:26380
+    #        - 192.168.1.200:26381
+    #      password: s123
+    #    password: redis123
     jedis:
       pool:
         max-idle: 8
         max-wait: 10000
-#logging:
-#  level:
-#    org.springframework.web: trace
+
+
 swagger:
-  path-name: helper
-  package-name: helper
-  application-name: 小助手
+  path-name: sentinel
+  package-name: sentinel
+  application-name: redis哨兵
