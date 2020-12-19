@@ -42,9 +42,6 @@ public class RedisConfig {
                     , redisProperties.getSentinel().getPassword()
             );
             return jedisSentinelPool;
-        } else if (redisProperties.getCluster() != null) {
-
-            return null;
         } else {
             return new JedisPool(getJedisPoolConfig(), redisProperties.getHost(), redisProperties.getPort(),
                     (int) redisProperties.getTimeout().toMillis(), redisProperties.getPassword());
