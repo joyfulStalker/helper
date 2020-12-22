@@ -1,7 +1,9 @@
 package co.imdo.perfect.web;
 
 import co.imdo.perfect.entity.FirstMongo;
+import co.imdo.perfect.entity.LogCollection;
 import co.imdo.perfect.service.FirstMongoService;
+import co.imdo.perfect.service.LogCollectionService;
 import co.imdo.perfect.vo.FirstMongoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,5 +58,32 @@ public class FirstMongoController {
             consumes = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<FirstMongo> findById(@RequestParam("id") String id) {
         return mongoTestService.findById(id);
+    }
+
+    @Autowired
+    private LogCollectionService logCollectionService;
+
+    @PostMapping("/save1")
+    @ApiOperation(value = "3、save1",
+            httpMethod = "POST",
+            response = FirstMongo.class,
+            notes = "3、save1",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono firstTestMongoInsertOne1(@RequestBody LogCollection insert) {
+        return logCollectionService.save(insert);
+    }
+
+
+    @PostMapping("/testErr")
+    @ApiOperation(value = "3、testErr",
+            httpMethod = "POST",
+            response = FirstMongo.class,
+            notes = "3、testErr",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono testErr() {
+        System.out.println(1 / 0);
+        return null;
     }
 }

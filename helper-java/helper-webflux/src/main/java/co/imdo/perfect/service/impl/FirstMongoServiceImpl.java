@@ -21,6 +21,7 @@ public class FirstMongoServiceImpl implements FirstMongoService {
 
     @Override
     public Flux<FirstMongo> query(FirstMongoVo query) {
+        System.out.println("FirstMongoServiceImpl:" + Thread.currentThread().getName());
         FirstMongo firstMongo = new FirstMongo();
         BeanUtils.copyProperties(query, firstMongo);
         return firstMongoRepository.findAll(Example.of(firstMongo));
