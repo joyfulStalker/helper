@@ -1,12 +1,12 @@
 package co.imdo.perfect.config;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.StackTraceElementProxy;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
-import co.imdo.perfect.entity.LogCollection;
-import co.imdo.perfect.service.LogCollectionService;
-import co.imdo.perfect.service.impl.LogCollectionServiceImpl;
-import co.imdo.perfect.util.ApplicationContextProvider;
+import co.imdo.perfect.util.SpringUtil;
+import com.mongodb.BasicDBObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
 /**
  * @author liu
@@ -16,48 +16,27 @@ public class MongDbLoggerAppender extends UnsynchronizedAppenderBase<ILoggingEve
 
     @Override
     protected void append(ILoggingEvent eventObject) {
-        try {
-            if (ApplicationContextProvider.applicationContext == null) {
-                return;
-            }
-            System.out.println("MongDbLoggerAppender1:" + Thread.currentThread().getName());
-
-            System.out.println("日志接收");
-            LogCollectionService logService = ApplicationContextProvider.applicationContext.getBean(LogCollectionServiceImpl.class);
-            if (logService != null) {
-                LogCollection logCollection = new LogCollection();
-                logCollection.setMessage(eventObject.getFormattedMessage());
-                logCollection.setThread(eventObject.getThreadName());
-                logCollection.setLogger(eventObject.getLoggerName());
-                logCollection.setLevel(eventObject.getLevel().toString());
-
-                logService.save(logCollection);
-                System.out.println("保存日志结束");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (SpringUtil.applicationContext == null) {
+            return;
         }
+        ReactiveMongoTemplate mongoTemplate = SpringUtil.getBean(ReactiveMongoTemplate.class);
+        if (mongoTemplate != null) {
+            final BasicDBObject doc = new BasicDBObject();
+            doc.append("level", eventObject.getLevel().toString());
+            doc.append("logger", eventObject.getLoggerName());
+            doc.append("thread", eventObject.getThreadName());
+            doc.append("formattedMessage", eventObject.getFormattedMessage());
+            doc.append("message", eventObject.getThrowableProxy().getMessage());
 
-//        ReactiveMongoTemplate reactiveMongoTemplate = ApplicationContextProvider.getBean("reactiveMongoTemplate");
-//        if (reactiveMongoTemplate != null) {
-//            final BasicDBObject doc = new BasicDBObject();
-//            doc.append("_id", ObjectId.get());
-//            doc.append("level", eventObject.getLevel().toString());
-//            doc.append("logger", eventObject.getLoggerName());
-//            doc.append("thread", eventObject.getThreadName());
-//            doc.append("message", eventObject.getFormattedMessage());
-//            reactiveMongoTemplate.save(doc, "log_collection");
-//        }
+            //TODO 需要改成响应式写法
+            StackTraceElementProxy[] stackTraceElementProxyArray = eventObject.getThrowableProxy().getStackTraceElementProxyArray();
+            String str = "";
+            for (int i = 0; i < stackTraceElementProxyArray.length; i++) {
+                str += stackTraceElementProxyArray[i].getSTEAsString() + "\r\n";
+            }
 
-//        ReactiveMongoTemplate mongoTemplate = ApplicationContextProvider.getBean(ReactiveMongoTemplate.class);
-//        if (mongoTemplate != null) {
-//            final BasicDBObject doc = new BasicDBObject();
-//            doc.append("_id", ObjectId.get());
-//            doc.append("level", eventObject.getLevel().toString());
-//            doc.append("logger", eventObject.getLoggerName());
-//            doc.append("thread", eventObject.getThreadName());
-//            doc.append("message", eventObject.getFormattedMessage());
-//            mongoTemplate.save(doc, "log_collection");
-//        }
+            doc.append("ste", str);
+            mongoTemplate.save(doc, "log_collection").subscribe();
+        }
     }
 }
