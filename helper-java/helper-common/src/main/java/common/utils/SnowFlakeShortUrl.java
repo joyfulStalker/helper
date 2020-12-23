@@ -1,5 +1,37 @@
 package common.utils;
+
+import com.google.common.collect.Maps;
+import common.common.enums.DataCenterEnum;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Map;
+
+/**
+ * @author liu
+ */
+@Slf4j
 public class SnowFlakeShortUrl {
+
+    @Value("${snow-flake.machine-Identify:1}")
+    private Long machineIdentify;
+
+    /**
+     * 只用数据做主键 ，不考虑机器号，机器号不同
+     */
+    private final Map<DataCenterEnum, SnowFlakeShortUrl> snowFlakeShortIdMap = Maps.newConcurrentMap();
+
+    public SnowFlakeShortUrl getSnowFlakeShortId(DataCenterEnum dataCenterEnum) {
+        if (snowFlakeShortIdMap.get(dataCenterEnum) == null) {
+            synchronized (SnowFlakeShortUrl.class) {
+                if (snowFlakeShortIdMap.get(dataCenterEnum) == null) {
+                    log.info("dataCenterEnum:" + dataCenterEnum + "加入到map");
+                    snowFlakeShortIdMap.put(dataCenterEnum, new SnowFlakeShortUrl(dataCenterEnum.getValue(), machineIdentify));
+                }
+            }
+        }
+        return snowFlakeShortIdMap.get(dataCenterEnum);
+    }
 
     /**
      * 起始的时间戳
@@ -44,13 +76,18 @@ public class SnowFlakeShortUrl {
         return System.currentTimeMillis();
     }
 
+
+    private SnowFlakeShortUrl() {
+
+    }
+
     /**
      * 根据指定的数据中心ID和机器标志ID生成指定的序列号
      *
      * @param dataCenterId 数据中心ID
      * @param machineId    机器标志ID
      */
-    public SnowFlakeShortUrl(long dataCenterId, long machineId) {
+    private SnowFlakeShortUrl(long dataCenterId, long machineId) {
         if (dataCenterId > MAX_DATA_CENTER_NUM || dataCenterId < 0) {
             throw new IllegalArgumentException("DtaCenterId can't be greater than MAX_DATA_CENTER_NUM or less than 0！");
         }
@@ -66,7 +103,16 @@ public class SnowFlakeShortUrl {
      *
      * @return
      */
-    public synchronized long nextId() {
+    public long nextId(DataCenterEnum dataCenterEnum) {
+        return this.getSnowFlakeShortId(dataCenterEnum).nextId();
+    }
+
+    /**
+     * 产生下一个ID
+     *
+     * @return
+     */
+    private synchronized long nextId() {
         long currTimeStamp = getNewTimeStamp();
 
         if (currTimeStamp < lastTimeStamp) {

@@ -75,9 +75,9 @@ mybatis-plus:
     cache-enabled: false
     ##开启SQL打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#logging:
-#  level:
-#    org.springframework.web: trace
+# 雪花算法
+snow-flake:
+  machine-Identify: 1
 swagger:
   path-name: helper
   package-name: helper

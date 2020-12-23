@@ -47,8 +47,9 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage(packageName + ".web"))
                 .paths(PathSelectors.any())
                 .build()
-                //下面这个设置就是在接口的path前加上project-name,每个项目的项目名路径不同，不加这个的话，发布到服务器请求接口会报404
-                .pathMapping("/" + pathName);
+//                //下面这个设置就是在接口的path前加上project-name,每个项目的项目名路径不同，不加这个的话，发布到服务器请求接口会报404
+//                .pathMapping("/" + pathName)
+                ;
     }
 
     /**

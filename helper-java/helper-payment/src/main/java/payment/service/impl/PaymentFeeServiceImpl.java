@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import common.common.Constant;
 import common.common.base.BizException;
+import common.common.enums.DataCenterEnum;
 import common.utils.AutoFillBaseDataUtil;
 import common.utils.PageUtil;
 import common.utils.SnowFlakeShortUrl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import payment.entity.PaymentFee;
@@ -34,6 +35,9 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class PaymentFeeServiceImpl extends ServiceImpl<PaymentFeeMapper, PaymentFee> implements IPaymentFeeService {
 
+    @Autowired
+    private SnowFlakeShortUrl snowFlakeShortUrl;
+
     @Override
     public void record(FeeRecordVo recordVo) {
 
@@ -56,8 +60,7 @@ public class PaymentFeeServiceImpl extends ServiceImpl<PaymentFeeMapper, Payment
             paymentFee.setFlowNo(temp.getFlowNo());
             paymentFee.setId(null);
         } else {
-            SnowFlakeShortUrl snowFlakeShortUrl = new SnowFlakeShortUrl(Constant.DATA_CENTER_ID_RECORD_PAYMENT, Constant.MACHINE_ID_PAYMENT);
-            paymentFee.setFlowNo(snowFlakeShortUrl.nextId());
+            paymentFee.setFlowNo(snowFlakeShortUrl.nextId(DataCenterEnum.RECORD_PAYMENT));
             log.info("默认值1");
             paymentFee.setVersion(+1);
         }

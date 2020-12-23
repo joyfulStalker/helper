@@ -25,19 +25,4 @@ public class Constant {
             TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(1024), NAMED_THREAD_FACTORY, new ThreadPoolExecutor.AbortPolicy());
 
 
-    /**
-     * 机器编号1 主应用helper
-     */
-    public final static long MACHINE_ID_HELPER = 1;
-
-    /**
-     * 机器编号2 账务应用payment
-     */
-    public final static long MACHINE_ID_PAYMENT = 2;
-
-    /**
-     * 数据中心 账务应用payment,账务流水
-     */
-    public final static long DATA_CENTER_ID_RECORD_PAYMENT = 1;
-
 }
