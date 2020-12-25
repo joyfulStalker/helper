@@ -9,7 +9,7 @@ import common.common.base.BizException;
 import common.common.enums.DataCenterEnum;
 import common.utils.AutoFillBaseDataUtil;
 import common.utils.PageUtil;
-import common.utils.SnowFlakeShortUrl;
+import common.utils.SnowFlakeUtil;
 import helper.entity.PaymentFee;
 import helper.mapper.PaymentFeeMapper;
 import helper.service.IPaymentFeeService;
@@ -36,7 +36,7 @@ import java.util.List;
 public class PaymentFeeServiceImpl extends ServiceImpl<PaymentFeeMapper, PaymentFee> implements IPaymentFeeService {
 
     @Autowired
-    private SnowFlakeShortUrl snowFlakeShortUrl;
+    private SnowFlakeUtil snowFlakeUtil;
 
     @Override
     public void record(FeeRecordVo recordVo) {
@@ -60,7 +60,7 @@ public class PaymentFeeServiceImpl extends ServiceImpl<PaymentFeeMapper, Payment
             paymentFee.setFlowNo(temp.getFlowNo());
             paymentFee.setId(null);
         } else {
-            paymentFee.setFlowNo(snowFlakeShortUrl.nextId(DataCenterEnum.RECORD_PAYMENT));
+            paymentFee.setFlowNo(snowFlakeUtil.nextId(DataCenterEnum.RECORD_PAYMENT));
             log.info("默认值1");
             paymentFee.setVersion(+1);
         }

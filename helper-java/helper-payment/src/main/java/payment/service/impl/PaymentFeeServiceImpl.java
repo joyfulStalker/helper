@@ -9,7 +9,7 @@ import common.common.base.BizException;
 import common.common.enums.DataCenterEnum;
 import common.utils.AutoFillBaseDataUtil;
 import common.utils.PageUtil;
-import common.utils.SnowFlakeShortUrl;
+import common.utils.SnowFlakeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ import java.util.List;
 public class PaymentFeeServiceImpl extends ServiceImpl<PaymentFeeMapper, PaymentFee> implements IPaymentFeeService {
 
     @Autowired
-    private SnowFlakeShortUrl snowFlakeShortUrl;
+    private SnowFlakeUtil snowFlakeShortUrl;
 
     @Override
     public void record(FeeRecordVo recordVo) {
