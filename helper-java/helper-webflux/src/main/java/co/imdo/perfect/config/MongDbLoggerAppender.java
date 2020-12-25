@@ -1,6 +1,7 @@
 package co.imdo.perfect.config;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import cn.hutool.core.date.DateUtil;
@@ -9,7 +10,8 @@ import com.mongodb.BasicDBObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author liu
@@ -28,17 +30,27 @@ public class MongDbLoggerAppender extends UnsynchronizedAppenderBase<ILoggingEve
             doc.append("level", eventObject.getLevel().toString());
             doc.append("logger", eventObject.getLoggerName());
             doc.append("thread", eventObject.getThreadName());
-            doc.append("formattedMessage", eventObject.getFormattedMessage());
-            doc.append("message", eventObject.getThrowableProxy().getMessage());
-            doc.append("time", DateUtil.formatDateTime(new Date(eventObject.getTimeStamp())));
+            doc.append("interfaceMsg", eventObject.getFormattedMessage());
+            doc.append("causeBy", eventObject.getThrowableProxy().getMessage());
+            doc.append("occurTime", DateUtil.formatDateTime(new Date(eventObject.getTimeStamp())));
+            final IThrowableProxy[] suppressed = eventObject.getThrowableProxy().getSuppressed();
 
-            //TODO 需要改成响应式写法
-            StackTraceElementProxy[] stackTraceElementProxyArray = eventObject.getThrowableProxy().getStackTraceElementProxyArray();
-            String str = "";
-            for (int i = 0; i < stackTraceElementProxyArray.length; i++) {
-                str += stackTraceElementProxyArray[i].getSTEAsString() + "\r\n";
+            List<Map<String, Object>> detailMsg = new ArrayList<>();
+            for (int i = 0; i < suppressed.length; i++) {
+                Map map = new HashMap<>(16);
+                map.put("message", suppressed[i].getMessage().toString());
+
+                List traceList = new ArrayList();
+                for (int j = 0; j < suppressed[i].getStackTraceElementProxyArray().length; j++) {
+                    traceList.add(suppressed[i].getStackTraceElementProxyArray()[j].getSTEAsString());
+                }
+                map.put("trace", traceList);
+                detailMsg.add(map);
             }
-            doc.append("ste", str);
+
+            doc.append("detailMsg", detailMsg);
+            doc.append("ste", Arrays.stream(eventObject.getThrowableProxy().getStackTraceElementProxyArray())
+                    .map(StackTraceElementProxy::getSTEAsString).collect(Collectors.joining()));
             mongoTemplate.save(doc, "log_collection").subscribe();
         }
     }
