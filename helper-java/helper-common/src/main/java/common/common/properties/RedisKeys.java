@@ -2,6 +2,9 @@ package common.common.properties;
 
 import lombok.Data;
 
+/**
+ * 在getRedisKeys方法中统一上传脚本，RedisKeys定义脚本名称
+ */
 @Data
 public class RedisKeys {
     /**

@@ -1,16 +1,18 @@
 package common.config;
 
-import common.common.properties.RedisKeys;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.scripting.support.ResourceScriptSource;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolAbstract;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisSentinelPool;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Desc redis的配置
@@ -19,64 +21,46 @@ import redis.clients.jedis.JedisPoolConfig;
  * @Version 1.0v
  **/
 @Configuration
+@EnableConfigurationProperties(RedisProperties.class)
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
-    private String host;
+    @Autowired
+    private RedisProperties redisProperties;
 
-    @Value("${spring.redis.port}")
-    private int port;
-
-    @Value("${spring.redis.password}")
-    private String password;
-
-    @Value("${spring.redis.timeout}")
-    private int timeout;
-
-    @Value("${spring.redis.pool.max-idle}")
-    private int maxIdle;
-
-    @Value("${spring.redis.pool.min-idle}")
-    private int minIdle;
-
-    @Value("${spring.redis.pool.max-wait}")
-    private long maxWaitMillis;
-
-    @Value("${spring.redis.pool.max-active}")
-    private int maxWaitActive;
+    @Bean
+    public JedisPoolAbstract jedisPool() {
+        if (redisProperties.getSentinel() != null) {
+            List<String> nodes = redisProperties.getSentinel().getNodes();
+            Set<String> nodeSets = new HashSet<>();
+            for (String node : nodes) {
+                nodeSets.add(node);
+            }
+            JedisSentinelPool jedisSentinelPool = new JedisSentinelPool(
+                    redisProperties.getSentinel().getMaster()
+                    , nodeSets
+                    , redisProperties.getPassword()
+                    , redisProperties.getSentinel().getPassword()
+            );
+            return jedisSentinelPool;
+        } else {
+            return new JedisPool(getJedisPoolConfig(), redisProperties.getHost(), redisProperties.getPort(),
+                    (int) redisProperties.getTimeout().toMillis(), redisProperties.getPassword());
+        }
+    }
 
     /**
-     * 把所有的redis用到的lua脚本统一上传，得到的sha值，统一放到一个类里面
+     * jedisPoolConfig
      *
-     * @param jedisPool
      * @return
      */
-    @Bean
-    public RedisKeys getRedisKeys(JedisPool jedisPool) {
-        DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
-        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("redislua/distributedId.lua")));
-        redisScript.setResultType(Boolean.class);
-
-        Jedis jedis = jedisPool.getResource();
-        String distributeIdShaKey = jedis.scriptLoad(redisScript.getScriptAsString());
-        System.out.println("distributeIdShaKey:" + distributeIdShaKey);
-        //使用完，一定要记得还回去，否则会资源不足 Could not get a resource from the pool
-        jedis.close();
-
-        RedisKeys redisKeys = new RedisKeys();
-        redisKeys.setDistributeIdShaKey(distributeIdShaKey);
-        return redisKeys;
-    }
-
-    @Bean
-    public JedisPool getJedisPool() {
+    private JedisPoolConfig getJedisPoolConfig() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxIdle(maxIdle);
-        jedisPoolConfig.setMinIdle(minIdle);
-        jedisPoolConfig.setMaxTotal(maxWaitActive);
-        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout, StringUtils.isBlank(password) ? null : password);
-        return jedisPool;
+        RedisProperties.Pool pool = redisProperties.getJedis().getPool();
+        if (pool != null) {
+            jedisPoolConfig.setMaxIdle(pool.getMaxIdle());
+            jedisPoolConfig.setMaxWaitMillis(pool.getMaxWait().toMillis());
+            //其他配置根据需要配置
+        }
+        return jedisPoolConfig;
     }
-
 }

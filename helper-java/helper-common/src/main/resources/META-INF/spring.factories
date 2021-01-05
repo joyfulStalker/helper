@@ -5,4 +5,5 @@ common.config.RedisConfig,\
 common.config.SwaggerConfig,\
 common.utils.SpringTool,\
 common.config.GlobalExceptionHandler,\
-common.utils.SnowFlakeUtil
+common.utils.SnowFlakeUtil,\
+common.service.impl.JedisServiceImpl
