@@ -85,9 +85,9 @@ public class RedisConfig {
                 DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
                 redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("redislua/" + redisKey + ".lua")));
                 redisScript.setResultType(Boolean.class);
-                String shaKey = jedis.scriptLoad(redisScript.getScriptAsString());
-                System.out.println("shaKey:" + shaKey);
-                ReflectUtil.invoke(redisKeys, redisKey, shaKey);
+                String sha1 = jedis.scriptLoad(redisScript.getScriptAsString());
+                System.out.println("the sha1's value of " + redisKey + " is: " + sha1);
+                ReflectUtil.invoke(redisKeys, redisKey, sha1);
             }
         } catch (Exception e) {
             throw new JedisConnectionException(e.getMessage());
