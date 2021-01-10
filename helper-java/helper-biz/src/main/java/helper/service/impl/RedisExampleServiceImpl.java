@@ -1,6 +1,6 @@
 package helper.service.impl;
 
-import common.common.properties.RedisKeys;
+import common.common.properties.RedisShaKeys;
 import common.service.JedisService;
 import helper.service.RedisExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ public class RedisExampleServiceImpl implements RedisExampleService {
     private JedisService jedisService;
 
     @Autowired
-    private RedisKeys redisKeys;
+    private RedisShaKeys redisKeys;
 
     @Override
     public String generateDistributeId(String type) {
-        return (String) jedisService.evalsha(redisKeys.getDistributeIdShaKey(), 1, type);
+        return (String) jedisService.evalsha(redisKeys.getDistributedId(), 1, type);
     }
 }

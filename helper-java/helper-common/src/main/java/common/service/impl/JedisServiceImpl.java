@@ -1,13 +1,8 @@
 package common.service.impl;
 
-import common.common.properties.RedisKeys;
 import common.function.JedisExecutor;
 import common.service.JedisService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.scripting.support.ResourceScriptSource;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPoolAbstract;
 import redis.clients.jedis.exceptions.JedisConnectionException;
@@ -42,29 +37,6 @@ public class JedisServiceImpl implements JedisService {
         } catch (Exception e) {
             throw new JedisConnectionException(e.getMessage());
         }
-    }
-
-    /**
-     * 上传脚本
-     * 把所有的redis用到的lua脚本统一上传，得到的sha值，统一放到一个类里面
-     *
-     * @return
-     */
-    @Bean
-    public RedisKeys getRedisKeys() {
-
-        DefaultRedisScript<Boolean> redisScript = new DefaultRedisScript<>();
-        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("redislua/distributedId.lua")));
-        redisScript.setResultType(Boolean.class);
-
-        RedisKeys redisKeys = new RedisKeys();
-        executeByJedis(jedis -> {
-            String distributeIdShaKey = jedis.scriptLoad(redisScript.getScriptAsString());
-            System.out.println("distributeIdShaKey:" + distributeIdShaKey);
-            redisKeys.setDistributeIdShaKey(distributeIdShaKey);
-            return jedis;
-        });
-        return redisKeys;
     }
 
     @Override

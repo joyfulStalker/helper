@@ -4,6 +4,11 @@
 - idea、mysql8.0.11、springboot2.1.5、MyBatisPlus3.1.1、druid1.1.16、swagger2.9.2
 
 ## 日志记录
+- 20210110 jedis上传lua脚本约束（RedisShaKeys中定义脚本名称，对应redislua文件下的lua脚本，即可初始化时完成上传，\
+  使用时只需要注入RedisShaKeys即可获取id),先上传脚本，得到sha1值，本方法可省去每次修改lua脚本sha1值改变而每次手动修改\
+  @Autowired \
+  private RedisShaKeys redisKeys;\
+  jedisService.evalsha(redisKeys.getShakey,...);
 - 20201219 Spring+Jedis哨兵配置 我的CSDN笔记:https://blog.csdn.net/yuyeshahun/article/details/110823422
 - 20201216 WebFlux+MongoDB+Reactor 响应式学习
 - 20201029 设计模式学习
