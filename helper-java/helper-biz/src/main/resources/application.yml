@@ -85,7 +85,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 雪花算法
 snow-flake:
-  machine-Identify: 1
+  machine-identify: 1
 swagger:
   path-name: helper
   package-name: helper

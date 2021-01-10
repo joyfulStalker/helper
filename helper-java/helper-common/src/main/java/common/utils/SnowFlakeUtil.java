@@ -13,7 +13,10 @@ import java.util.Map;
 @Slf4j
 public class SnowFlakeUtil {
 
-    @Value("${snow-flake.machine-Identify:1}")
+    /**
+     * 机器编号
+     */
+    @Value("${snow-flake.machine-identify:1}")
     private Long machineIdentify;
 
     /**
