@@ -4,6 +4,7 @@ local id = redis.call('get',key)
 if(id == false)
 then
     redis.call('set',key,1)
+    redis.call('EXPIRE',key, 60 * 60 * 24)
     return key.."0001"
 else
     redis.call('set',key,id+1)
