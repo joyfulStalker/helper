@@ -28,25 +28,46 @@ public class EquationSolution {
     private static final String DIV = "/";
     private static final String EQU = "=";
 
+    /**
+     * 保留位数
+     */
     private static final int scale = 2;
+    /**
+     * BigDecimal保留小数的方式
+     */
     private static final int ROUND_TYPE = BigDecimal.ROUND_HALF_UP;
+    /**
+     * 最终的解
+     */
     public static Map<String, String> pv = Maps.newHashMap();
+    /**
+     * 还需要求解的元素
+     */
     public static Map<String, String> pvForCalculate = Maps.newConcurrentMap();
+    /**
+     * 已解出来的参数 带入方程式
+     */
     public static Map<String, String> daiRuMap = Maps.newHashMap();
-
-
+    /**
+     * 是否计算完成标识  true计算完成
+     */
+    public static boolean endFlag = false;
+    /**
+     * 待求方程组
+     */
     public static List<Map<String, String>> decoListStatic = Lists.newArrayList();
 
     public static void main(String[] args) {
         //1 2 3 1
 //        String e1 = "x+y=3";
 //        String e2 = "2x+3y=8";
+//        String e3 = "2x+3y=9";
 //        String e3 = "3x+4y+3z=20";
 //        String e1 = "x+y+z=6";
 //        String e2 = "2x+3y+4z=20";
 //        String e3 = "3x+4y+3z=20";
         String e1 = "x+y+z+f=7";
-        String e2 = "2x+3y+4z+2f=22";
+        String e2 = "2x+3y-4z+2f=10";
         String e3 = "3x+4y+3z+3f=23";
         String e4 = "3x+4y+3z-f=19";
 //        calculate(e1, e2, e3);
@@ -62,7 +83,7 @@ public class EquationSolution {
     }
 
     private static void solution(List<Map<String, String>> decoList) {
-        if (CollectionUtils.isEmpty(decoList)) {
+        if (CollectionUtils.isEmpty(decoList) || endFlag) {
             return;
         }
         int solvedNum = 0;
@@ -81,8 +102,9 @@ public class EquationSolution {
             }
         }
 
-        if (solvedNum == decoList.size()) {
-            log.info("所有的值已经求出来");
+        if (solvedNum == decoListStatic.size()) {
+            log.info("当前循环所有的值已经求出来");
+            endFlag = true;
             return;
         }
 
@@ -108,12 +130,6 @@ public class EquationSolution {
             //消元后的
             List<Map<String, String>> solvedDecoList = Lists.newArrayList();
             Map<String, String> lastDecoCopy = null;
-
-
-//            String p = pvForCalculate.keySet().iterator().next();
-//            log.info("本次要消除的参数：" + p);
-//            //移除参数
-//            pvForCalculate.remove(p);
 
             for (Map<String, String> decoCopy : decoCopyList) {
                 Map<String, String> copy = Maps.newHashMap();
@@ -159,14 +175,11 @@ public class EquationSolution {
             }
             solution(solvedDecoList);
         }
-
-
     }
 
 
     /**
      * 公倍数
-     * ?怎么求最小公倍数
      *
      * @return
      */
@@ -197,12 +210,8 @@ public class EquationSolution {
         if (StringUtils.isBlank(pv.get(p))) {
             pv.put(p, value);
             daiRuMap.put(p, value);
-
-//            pvForCalculate.put(p, "");
         } else {
-            if (!pv.get(p).equals(value)) {
-                Assert.isTrue(false, "参数" + p + "多解");
-            }
+            Assert.isTrue(pv.get(p).equals(value), "参数" + p + "多解");
         }
     }
 
@@ -225,6 +234,9 @@ public class EquationSolution {
                     BigDecimal subtract = new BigDecimal(deco.get(EQU)).subtract(value);
                     deco.put(EQU, subtract.toString());
                     deco.remove(daiRu);
+                    if (deco.size() == 1) {
+                        Assert.isTrue(BigDecimal.ZERO.compareTo(new BigDecimal(deco.get(EQU))) == 0, "该方程组无解");
+                    }
                 }
                 //把当前的值去掉 下次就不做该参数的替换了
                 daiRuMap.remove(daiRu);
@@ -249,160 +261,14 @@ public class EquationSolution {
         return deco;
     }
 
-
-    //=========================================================
-//    private static void gauss(List<Map<String, String>> deco) {
-//        for (String param : pv.keySet()) {
-//            boolean flag = true;
-//            while (flag) {
-//                for (String p : pv.keySet()) {
-//                    if (!StringUtils.isBlank(pv.get(p))) {
-//                        freshDeco(deco, p);
-//                    }
-//                }
-//                List<BigDecimal> coeList = Lists.newArrayList();
-//
-//                List<Map<String, String>> decoCopy = Lists.newArrayList();
-//                for (Map<String, String> map : deco) {
-//                    decoCopy.add(map);
-//                    if (map.get(param) == null) {
-//                        if (map.keySet().size() == 2) {
-//                            //直接求解
-//                            soulation(map, deco);
-//                            break;
-//                        }
-//                    } else {
-//                        coeList.add(new BigDecimal(map.get(param)));
-//                    }
-//                }
-//                if (coeList != null && coeList.size() > 1) {
-//                    BigDecimal multiple = multiple(coeList);
-//                    reFreshDeco(multiple, param, decoCopy);
-//                } else {
-//
-//                }
-//                flag = false;
-//            }
-//        }
-//
-//    }
-//
-//    private static void freshDeco(List<Map<String, String>> deco, String param) {
-//        for (Map<String, String> map : deco) {
-//            if (map.get(param) != null) {
-//                //消元
-//                String value = map.get(param);
-//                map.remove(param);
-//                map.put(EQU, new BigDecimal(map.get(EQU)).subtract(new BigDecimal(value)).toString());
-//            }
-//        }
-//    }
-//
-//    private static void reFreshDeco(BigDecimal multiple, String param, List<Map<String, String>> deco) {
-//        Map<String, String> tempMap = null;
-//
-//        List<Map<String, String>> cycleList = Lists.newArrayList();
-//
-//        for (Map<String, String> map : deco) {
-//            if (map.get(param) != null) {
-//                BigDecimal beiShu = multiple.divide(new BigDecimal(map.get(param)), scale, ROUND_TYPE);
-//                for (String key : map.keySet()) {
-//                    map.put(key, new BigDecimal(map.get(key)).multiply(beiShu).toString());
-//                }
-//                if (tempMap != null) {
-//                    Map<String, String> calculateMap = Maps.newHashMap();
-//                    //消元
-//                    for (String p : pv.keySet()) {
-//                        String s = "";
-//                        String s1 = map.get(p);
-//                        String s2 = tempMap.get(p);
-//                        if (StringUtils.isBlank(s1)) {
-//                            s = s2;
-//                        } else if (StringUtils.isBlank(s2)) {
-//                            s = s1;
-//                        } else {
-//                            s = new BigDecimal(s1).subtract(new BigDecimal(s2)).toString();
-//                        }
-//                        if (StringUtils.isBlank(s) || new BigDecimal(s).compareTo(BigDecimal.ZERO) == 0) {
-//
-//                        } else {
-//                            calculateMap.put(p, s);
-//                        }
-//                    }
-//                    calculateMap.put(EQU, new BigDecimal(map.get(EQU)).subtract(new BigDecimal(tempMap.get(EQU))).toString());
-//                    if (calculateMap.size() != 2) {
-//                        cycleList.add(calculateMap);
-//                    } else {
-//                        soulation(calculateMap, deco);
-//                        return;
-//                    }
-////                    return;
-//                }
-//                tempMap = map;
-//            }
-//        }
-//        gauss(cycleList);
-//
-//    }
-//
-//    private static void soulation(Map<String, String> map, List<Map<String, String>> deco) {
-//        if (map.size() != 2) {
-//            return;
-//        }
-//        String left = "";
-//        String right = "";
-//        String p = "";
-//        for (String p1 : map.keySet()) {
-//            if (p1.equals(EQU)) {
-//                right = map.get(p1);
-//            } else {
-//                left = map.get(p1);
-//                p = p1;
-//            }
-//        }
-//        String value = new BigDecimal(right).divide(new BigDecimal(left), scale, ROUND_TYPE).toString();
-//        if (StringUtils.isBlank(pv.get(p))) {
-//            pv.put(p, value);
-//        } else {
-//            if (!pv.get(p).equals(value)) {
-//                Assert.isTrue(false, "参数" + p + "多解");
-//            }
-//        }
-//        //更新表达式
-//        for (Map<String, String> m : deco) {
-//            if (m.get(p) != null) {
-//                BigDecimal subtract = new BigDecimal(m.get(EQU)).subtract(new BigDecimal(m.get(p)).multiply(new BigDecimal(value)));
-//                m.put(EQU, subtract.toString());
-//                m.remove(p);
-//            }
-//        }
-//        //继续计算
-//        gauss(deco);
-//    }
-//
-//    private static List<Map<String, String>> getDeco(String[] expressions) {
-//        List<Map<String, String>> deco = Lists.newArrayList();
-//        for (String expression : expressions) {
-//            String[] split = expression.split(EQU);
-//            Assert.isTrue(split.length == 2, "请检查表达式：" + expression + "是否正确");
-//            Map<String, String> exMap = Maps.newHashMap();
-//            exMap.put(EQU, split[1]);
-//            String[] splitPlus = split[0].replace(SUB, "+-").split(PLUS);
-//            putToExMap(exMap, splitPlus);
-//            deco.add(exMap);
-//        }
-//        return deco;
-//    }
-//
-//
-//    /**
-//     * 2x
-//     * -2x
-//     * +2x
-//     *
-//     * @param es
-//     * @return
-//     */
+    /**
+     * 2x
+     * -2x
+     * +2x
+     *
+     * @param es
+     * @return
+     */
     public static void putToExMap(Map<String, String> exMap, String... es) {
         for (String e : es) {
             char[] chars = e.toCharArray();
@@ -430,20 +296,5 @@ public class EquationSolution {
             exMap.put(param, e);
         }
     }
-//
-//
-//    /**
-//     * 公倍数
-//     * ?怎么求最小公倍数
-//     *
-//     * @return
-//     */
-//    public static BigDecimal multiple(List<BigDecimal> coefficients) {
-//        BigDecimal res = BigDecimal.ONE;
-//        for (BigDecimal coefficient : coefficients) {
-//            res = res.multiply(coefficient);
-//        }
-//        return res;
-//    }
 
 }
