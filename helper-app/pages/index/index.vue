@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
 		<image class="logo" src="/static/logo.png"></image>
+		<label>{{cid}}</label>
 
 	</view>
 </template>
@@ -13,7 +14,12 @@
 				cid: ''
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			var pinf = plus.push.getClientInfo();
+			var cid = pinf.clientid; //客户端标识
+			console.log('cid：' + cid);
+			this.$data.cid = cid;
+		},
 		methods: {
 
 		}

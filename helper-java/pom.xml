@@ -16,6 +16,7 @@
         <module>helper-jedis</module>
         <module>helper-webflux</module>
         <module>helper-rabbitMQ</module>
+        <module>helper-app</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+co.imdo.perfect.getui.config.GetuiConfig,\
+co.imdo.perfect.getui.api.impl.GeTuiServiceImpl
