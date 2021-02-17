@@ -3,6 +3,7 @@ package helper.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import common.common.enums.RequestEnum;
 import helper.entity.User;
+import helper.vo.user.DeviceVo;
 import helper.vo.user.UserLoginVo;
 import helper.vo.user.UserRegisterVo;
 import helper.vo.user.UserVo;
@@ -44,4 +45,11 @@ public interface IUserService extends IService<User> {
      * @return
      */
     UserVo login(UserLoginVo loginVo, HttpServletRequest request);
+
+    /**
+     * 设备信息注册
+     *
+     * @param deviceVo
+     */
+    void cidRegister(DeviceVo deviceVo);
 }

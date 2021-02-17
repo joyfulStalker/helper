@@ -7,12 +7,11 @@ import common.common.base.BizException;
 import common.common.enums.RequestEnum;
 import common.utils.AutoFillBaseDataUtil;
 import common.utils.PasswordUtil;
+import helper.entity.TtUserDevice;
 import helper.entity.User;
 import helper.mapper.UserMapper;
-import helper.service.IMessageService;
-import helper.service.IUserLoginService;
-import helper.service.IUserService;
-import helper.service.RedisService;
+import helper.service.*;
+import helper.vo.user.DeviceVo;
 import helper.vo.user.UserLoginVo;
 import helper.vo.user.UserRegisterVo;
 import helper.vo.user.UserVo;
@@ -47,6 +46,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private ITtUserDeviceService deviceService;
 
 
     @Override
@@ -116,6 +118,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String token = redisService.userToToken(userVo);
         userVo.setToken(token);
         return userVo;
+    }
+
+    @Override
+    public void cidRegister(DeviceVo deviceVo) {
+        UserVo currentUser = redisService.getCurrentUser();
+        TtUserDevice device = new TtUserDevice();
+        device.setCid(deviceVo.getCid());
+        device.setUserid(currentUser.getId());
+        deviceService.save(device);
     }
 
 

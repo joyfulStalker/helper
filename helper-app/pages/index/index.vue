@@ -15,10 +15,10 @@
 			}
 		},
 		onLoad() {
-			var pinf = plus.push.getClientInfo();
-			var cid = pinf.clientid; //客户端标识
-			console.log('cid：' + cid);
-			this.$data.cid = cid;
+			// var pinf = plus.push.getClientInfo();
+			// var cid = pinf.clientid; //客户端标识
+			// console.log('cid：' + cid);
+			// this.$data.cid = cid;
 		},
 		methods: {
 

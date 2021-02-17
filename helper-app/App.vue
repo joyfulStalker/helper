@@ -1,7 +1,11 @@
 <script>
 	export default {
+		//全局变量
+		globalData: {
+			token:''
+		},
 		onLaunch: function() {
-		
+
 			plus.push.addEventListener(
 				'click',
 				function(msg) {

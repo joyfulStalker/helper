@@ -3,6 +3,7 @@ package helper.web;
 import common.common.HttpMethod;
 import common.common.base.R;
 import helper.service.IUserService;
+import helper.vo.user.DeviceVo;
 import helper.vo.user.UserLoginVo;
 import helper.vo.user.UserRegisterVo;
 import helper.vo.user.UserVo;
@@ -60,5 +61,20 @@ public class UserController {
 
     public R login(@Validated(UserLoginVo.Check.class) @RequestBody UserLoginVo loginVo, HttpServletRequest request) throws Exception {
         return R.of(userService.login(loginVo, request));
+    }
+
+
+    @ResponseBody
+    @PostMapping("/cidRegister")
+    @ApiOperation(value = "3、设备注册",
+            httpMethod = HttpMethod.POST,
+            response = UserVo.class,
+            notes = "3、设备注册",
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+
+    public R cidRegister(@Validated(DeviceVo.Check.class) @RequestBody DeviceVo deviceVo) throws Exception {
+        userService.cidRegister(deviceVo);
+        return R.of();
     }
 }
