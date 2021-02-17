@@ -11,7 +11,7 @@ import helper.entity.TtNote;
 import helper.mapper.TtNoteMapper;
 import helper.service.IRltLabelService;
 import helper.service.ITtNoteService;
-import helper.service.RedisService;
+import helper.service.LocalUserService;
 import helper.vo.note.LabelVo;
 import helper.vo.note.NoteQueryVo;
 import helper.vo.note.NoteVo;
@@ -36,7 +36,7 @@ import java.util.List;
 public class TtNoteServiceImpl extends ServiceImpl<TtNoteMapper, TtNote> implements ITtNoteService {
 
     @Autowired
-    private RedisService redisService;
+    private LocalUserService localUserService;
 
     @Autowired
     private IRltLabelService rltNoteLabelService;
@@ -48,9 +48,9 @@ public class TtNoteServiceImpl extends ServiceImpl<TtNoteMapper, TtNote> impleme
         BeanUtil.copyProperties(noteVo, note);
         AutoFillBaseDataUtil.fillCreatedData(note);
 
-        note.setTtUserId(redisService.getCurrentUser().getId());
-        note.setCreateBy(redisService.getCurrentUser().getId());
-        note.setCreateByName(redisService.getCurrentUser().getUserName());
+        note.setTtUserId(localUserService.getCurrentUser().getId());
+        note.setCreateBy(localUserService.getCurrentUser().getId());
+        note.setCreateByName(localUserService.getCurrentUser().getUserName());
 
         baseMapper.insert(note);
 
@@ -75,7 +75,7 @@ public class TtNoteServiceImpl extends ServiceImpl<TtNoteMapper, TtNote> impleme
 
     @Override
     public IPage<NoteVo> noteList(NoteQueryVo queryVo) {
-        Integer userId = redisService.getCurrentUser(false).getId();
+        Integer userId = localUserService.getCurrentUser(false).getId();
         return baseMapper.selectNoteList(PageUtil.getPage(queryVo), queryVo, userId);
     }
 }

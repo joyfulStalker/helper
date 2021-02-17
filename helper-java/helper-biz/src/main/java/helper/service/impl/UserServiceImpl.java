@@ -45,7 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private IUserLoginService loginService;
 
     @Autowired
-    private RedisService redisService;
+    private LocalUserService localUserService;
 
     @Autowired
     private ITtUserDeviceService deviceService;
@@ -115,14 +115,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         BeanUtil.copyProperties(user, userVo);
 
         //用户信息存放到redis
-        String token = redisService.userToToken(userVo);
+        String token = localUserService.userToToken(userVo);
         userVo.setToken(token);
         return userVo;
     }
 
     @Override
     public void cidRegister(DeviceVo deviceVo) {
-        UserVo currentUser = redisService.getCurrentUser();
+        UserVo currentUser = localUserService.getCurrentUser();
         TtUserDevice device = new TtUserDevice();
         device.setCid(deviceVo.getCid());
         device.setUserid(currentUser.getId());

@@ -13,7 +13,6 @@
         <module>helper-test</module>
         <module>helper-payment</module>
         <module>helper-common</module>
-        <module>helper-jedis</module>
         <module>helper-webflux</module>
         <module>helper-rabbitMQ</module>
         <module>helper-app</module>

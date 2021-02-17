@@ -1,7 +1,7 @@
 package helper.service.impl;
 
-import common.common.properties.RedisShaKeys;
-import common.service.JedisService;
+import co.imdo.perfect.properties.RedisShaKeys;
+import co.imdo.perfect.service.JedisService;
 import helper.service.RedisExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

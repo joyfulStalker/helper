@@ -1,9 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 common.aop.MonitorAspect,\
 common.config.MybatisPlusConfig,\
-common.config.RedisConfig,\
 common.config.SwaggerConfig,\
 common.utils.SpringTool,\
 common.config.GlobalExceptionHandler,\
-common.utils.SnowFlakeUtil,\
-common.service.impl.JedisServiceImpl
+common.utils.SnowFlakeUtil

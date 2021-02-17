@@ -74,6 +74,11 @@
             <artifactId>helper-common</artifactId>
             <version>${helper.common.version}</version>
         </dependency>
+        <dependency>
+            <groupId>lsl.mint</groupId>
+            <artifactId>my-jedis-starter</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>helper</finalName>

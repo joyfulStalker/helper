@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+co.imdo.perfect.config.RedisConfig,\
+co.imdo.perfect.service.impl.JedisServiceImpl
