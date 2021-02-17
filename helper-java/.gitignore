@@ -2,6 +2,7 @@
 /.idea/
 /logs/
 /application.pid
+/*/*/target/
 /*/target/
 /*/*.iml
 *.iml

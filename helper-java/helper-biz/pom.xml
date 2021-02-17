@@ -79,6 +79,11 @@
             <artifactId>my-jedis-starter</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>lsl.mint</groupId>
+            <artifactId>my-getui-starter</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>helper</finalName>

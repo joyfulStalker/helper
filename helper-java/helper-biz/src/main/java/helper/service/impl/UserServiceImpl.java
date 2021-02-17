@@ -123,10 +123,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public void cidRegister(DeviceVo deviceVo) {
         UserVo currentUser = localUserService.getCurrentUser();
-        TtUserDevice device = new TtUserDevice();
-        device.setCid(deviceVo.getCid());
-        device.setUserid(currentUser.getId());
-        deviceService.save(device);
+
+        LambdaQueryWrapper<TtUserDevice> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(TtUserDevice::getUserid, currentUser.getId());
+        TtUserDevice userDevice = deviceService.getOne(queryWrapper);
+        if (userDevice == null) {
+            TtUserDevice device = new TtUserDevice();
+            device.setCid(deviceVo.getCid());
+            device.setUserid(currentUser.getId());
+            deviceService.save(device);
+        } else if (!userDevice.getCid().equals(deviceVo.getCid())) {
+            userDevice.setCid(deviceVo.getCid());
+            deviceService.updateById(userDevice);
+        }
     }
 
 
