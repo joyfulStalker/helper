@@ -56,6 +56,9 @@
 				uerInfo: {}
 			}
 		},
+		mounted() {
+			this.isLogin();
+		},
 		methods: {
 
 			isLogin() {
