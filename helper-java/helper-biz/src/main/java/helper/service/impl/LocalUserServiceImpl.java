@@ -14,6 +14,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
+import static common.common.Constant.TOKEN_PREFIX;
+import static common.common.Constant.TOKEN_PREFIX_USER;
+import static common.common.enums.TimeEnum.TOKEN_EXPIRE;
+
 @Service
 public class LocalUserServiceImpl implements LocalUserService {
 
@@ -23,7 +27,14 @@ public class LocalUserServiceImpl implements LocalUserService {
     @Override
     public String userToToken(UserVo userVo) {
         String token = UUID.randomUUID().toString().replace("-", "");
-        jedisService.set(token, JSON.toJSONString(userVo));
+        //上次登录的token
+        String lastToken = jedisService.get(TOKEN_PREFIX_USER + userVo.getId());
+        if (StringUtils.isNotBlank(lastToken)) {
+            jedisService.del(TOKEN_PREFIX + lastToken);
+            jedisService.del(TOKEN_PREFIX_USER + userVo.getId());
+        }
+        jedisService.setex(TOKEN_PREFIX + token, TOKEN_EXPIRE.getTime(), JSON.toJSONString(userVo));
+        jedisService.setex(TOKEN_PREFIX_USER + userVo.getId(), TOKEN_EXPIRE.getTime(), token);
         return token;
     }
 

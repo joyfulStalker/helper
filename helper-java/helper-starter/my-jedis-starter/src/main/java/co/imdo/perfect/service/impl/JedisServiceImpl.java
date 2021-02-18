@@ -41,12 +41,23 @@ public class JedisServiceImpl implements JedisService {
 
     @Override
     public String set(String key, String value) {
+
         return executeByJedis(jedis -> jedis.set(key, value));
+    }
+
+    @Override
+    public String setex(String key, int seconds, String value) {
+        return executeByJedis(jedis -> jedis.setex(key, seconds, value));
     }
 
     @Override
     public String get(String key) {
         return executeByJedis(jedis -> jedis.get(key));
+    }
+
+    @Override
+    public Long del(String... key) {
+        return executeByJedis(jedis -> jedis.del(key));
     }
 
     @Override

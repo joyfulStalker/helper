@@ -16,12 +16,30 @@ public interface JedisService {
     String set(String key, String value);
 
     /**
+     * set操作
+     *
+     * @param key
+     * @param seconds 过期时间
+     * @param value
+     * @return
+     */
+    String setex(String key, int seconds, String value);
+
+    /**
      * get操作
      *
      * @param key
      * @return
      */
     String get(String key);
+
+    /**
+     * del操作
+     *
+     * @param key
+     * @return
+     */
+    Long del(String... key);
 
     /**
      * lua脚本

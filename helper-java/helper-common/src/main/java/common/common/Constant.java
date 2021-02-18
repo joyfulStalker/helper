@@ -24,5 +24,13 @@ public class Constant {
     public static final ExecutorService EXECUTOR_SERVICE = new ThreadPoolExecutor(5, 200, 0L,
             TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(1024), NAMED_THREAD_FACTORY, new ThreadPoolExecutor.AbortPolicy());
 
+    /**
+     * token 前缀
+     */
+    public static final String TOKEN_PREFIX = "helper.token.";
+    /**
+     * token user 前缀
+     */
+    public static final String TOKEN_PREFIX_USER = "helper.user.";
 
 }
