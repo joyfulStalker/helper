@@ -1,7 +1,48 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<label>{{cid}}</label>
+	<view class="center">
+		<view class="logo" @click="goLogin" :hover-class="!login ? 'logo-hover' : ''">
+			<image class="logo-img" :src="login ? uerInfo.avatarUrl :avatarUrl"></image>
+			<view class="logo-title">
+				<text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text>
+				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
+			</view>
+		</view>
+		<view class="center-list">
+			<view class="center-list-item border-bottom">
+				<text class="list-icon">&#xe60f;</text>
+				<text class="list-text">帐号管理</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="center-list-item">
+				<text class="list-icon">&#xe639;</text>
+				<text class="list-text">新消息通知</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
+		<view class="center-list">
+			<view class="center-list-item border-bottom">
+				<text class="list-icon">&#xe60b;</text>
+				<text class="list-text">帮助与反馈</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+			<view class="center-list-item">
+				<text class="list-icon">&#xe65f;</text>
+				<text class="list-text">服务条款及隐私</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
+		<view class="center-list">
+			<view class="center-list-item">
+				<text class="list-icon">&#xe614;</text>
+				<text class="list-text">关于应用</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
+		</view>
+		<view class="center-list">
+			<view class="center-list-item">
+				<text class="list-text" style="text-align: center;" @click="logout()">退出当前账号</text>
+			</view>
+		</view>
 
 	</view>
 </template>
@@ -10,46 +51,44 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
-				cid: ''
+				login: false,
+				avatarUrl: "../../static/logo.png",
+				uerInfo: {}
 			}
-		},
-		onLoad() {
-			// var pinf = plus.push.getClientInfo();
-			// var cid = pinf.clientid; //客户端标识
-			// console.log('cid：' + cid);
-			// this.$data.cid = cid;
 		},
 		methods: {
 
+			isLogin() {
+				// 判断缓存中是否登录过，直接登录
+				try {
+					let token = uni.getStorageSync('token');
+					let isVisitor = getApp().globalData.isVisitor;
+					console.log(token, isVisitor)
+
+					if (isVisitor == false && !token) {
+						//有登录信息
+						console.log("用户未登录或token过期");
+						uni.redirectTo({
+							url: '../login/login',
+						});
+					}
+				} catch (e) {
+
+					// error
+				}
+			},
+			logout() {
+				console.log("tuichu")
+				getApp().globalData.isVisitor = true;
+				uni.removeStorageSync("token");
+				uni.reLaunch({
+					url: '../login/login',
+				});
+			}
 		}
 	}
 </script>
 
 <style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
+	@import url("./css/main.css");
 </style>

@@ -40,7 +40,7 @@ public class LocalUserServiceImpl implements LocalUserService {
 
     @Override
     public UserVo getUserByToken(String token, boolean allowThrowException) {
-        String user = jedisService.get(token);
+        String user = jedisService.get(TOKEN_PREFIX+token);
         if (allowThrowException && StringUtils.isEmpty(user)) {
             throw BizException.BIZ_USER_NOT_LOGIN_EXCEPTION;
         }

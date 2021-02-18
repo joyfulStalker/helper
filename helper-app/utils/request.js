@@ -1,22 +1,25 @@
 module.exports = (params) => {
-	let url = 'http://perfect.imdo.co:27867/helper' + params.url;
+	// let url = 'http://perfect.imdo.co:27867/helper' + params.url;
+	let url = 'http://192.168.1.5:9000' + params.url;
 	let method = params.method;
 	let header = params.header || {};
 	let data = params.data || {};
+	let token = uni.getStorageSync('token') || '';
 	if (method) {
 		method = method.toLocaleUpperCase();
 		if (method == "POST") {
 			header = {
 				"content-type": "application/json",
-				"token": getApp().globalData.token
+				"token": token
 			}
 		} else {
 			header = {
-				"token": getApp().globalData.token
+				"token": token
 			}
 		}
 	}
 	console.log("======>" + header.token)
+	// console.log(url)
 	uni.request({
 		url: url,
 		method: method,
@@ -25,7 +28,7 @@ module.exports = (params) => {
 		dataType: "json",
 		sslVerify: false,
 		success: res => {
-			
+
 			if (res.code && res.code != 200) {
 				uni.showModal({
 					content: res.msg

@@ -31,7 +31,7 @@
 				<text>|</text>
 				<navigator url="register" open-type="navigate">注册账号</navigator>
 				<text>|</text>
-				<navigator url="/pages/index/index" open-type="switchTab">游客浏览</navigator>
+				<navigator @click="visitor()">游客浏览</navigator>
 			</view>
 		</view>
 	</view>
@@ -63,24 +63,30 @@
 		},
 		mounted() {
 			_this = this;
-			//this.isLogin();
+			// this.isLogin();
 		},
 		methods: {
+			visitor(){
+				console.log("点击")
+				getApp().globalData.isVisitor = true;
+				uni.reLaunch({
+					url: '../index/index',
+				});
+			},
 			isLogin() {
-				//判断缓存中是否登录过，直接登录
-				// try {
-				// 	const value = uni.getStorageSync('setUserData');
-				// 	if (value) {
-				// 		//有登录信息
-				// 		console.log("已登录用户：",value);
-				// 		_this.$store.dispatch("setUserData",value); //存入状态
-				// 		uni.reLaunch({
-				// 			url: '../../../pages/index',
-				// 		});
-				// 	}
-				// } catch (e) {
-				// 	// error
-				// }
+				// 判断缓存中是否登录过，直接登录
+				try {
+					let token = uni.getStorageSync('token');
+					if (token) {
+						//有登录信息
+						console.log("已登录用户："+ token);
+						uni.reLaunch({
+							url: '../index/index',
+						});
+					}
+				} catch (e) {
+					// error
+				}
 			},
 			startLogin(e) {
 				console.log(e)
@@ -106,17 +112,17 @@
 					return;
 				}
 
-				console.log("登录成功")
+				
 
 				var pinf = plus.push.getClientInfo();
 				var cid = pinf.clientid; //客户端标识
 				console.log('cid：' + cid);
 
 
-				_this.isRotate = true
-				setTimeout(function() {
-					_this.isRotate = false
-				}, 3000)
+				// _this.isRotate = true
+				// setTimeout(function() {
+				// 	_this.isRotate = false
+				// }, 3000)
 
 
 
@@ -128,19 +134,25 @@
 						// debugger
 						console.log(res.data)
 						if (res.code == 1) {
+							
+							console.log("登录成功")
+							getApp().globalData.isVisitor = false;
 							//页面跳转
-							getApp().globalData.token = res.data.token;
-							uni.reLaunch({
-								url: '../index/index',
-							});
+							uni.setStorageSync('token', res.data.token);
+							// getApp().globalData.token = res.data.token;
 							this.http({
 								url: "/user/cidRegister",
 								method: "post",
-								data:{"cid": cid},
+								data: {
+									"cid": cid
+								},
 								success: res => {
 									console.log("cid注册成功")
 								}
-							})
+							});
+							uni.reLaunch({
+								url: '../index/index',
+							});
 						}
 
 					}
