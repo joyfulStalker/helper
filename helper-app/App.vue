@@ -2,7 +2,8 @@
 	export default {
 		//全局变量
 		globalData: {
-			isVisitor: false
+			isVisitor: false,
+			userInfo:{}
 		},
 		onLaunch: function() {
 

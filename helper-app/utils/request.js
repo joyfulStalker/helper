@@ -1,6 +1,6 @@
 module.exports = (params) => {
-	// let url = 'http://perfect.imdo.co:27867/helper' + params.url;
-	let url = 'http://192.168.1.5:9000' + params.url;
+	let url = 'http://perfect.imdo.co:27867/helper' + params.url;
+	// let url = 'http://192.168.1.5:9000' + params.url;
 	let method = params.method;
 	let header = params.header || {};
 	let data = params.data || {};

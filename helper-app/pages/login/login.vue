@@ -66,7 +66,7 @@
 			// this.isLogin();
 		},
 		methods: {
-			visitor(){
+			visitor() {
 				console.log("点击")
 				getApp().globalData.isVisitor = true;
 				uni.reLaunch({
@@ -79,7 +79,7 @@
 					let token = uni.getStorageSync('token');
 					if (token) {
 						//有登录信息
-						console.log("已登录用户："+ token);
+						console.log("已登录用户：" + token);
 						uni.reLaunch({
 							url: '../index/index',
 						});
@@ -112,19 +112,9 @@
 					return;
 				}
 
-				
-
 				var pinf = plus.push.getClientInfo();
 				var cid = pinf.clientid; //客户端标识
 				console.log('cid：' + cid);
-
-
-				// _this.isRotate = true
-				// setTimeout(function() {
-				// 	_this.isRotate = false
-				// }, 3000)
-
-
 
 				this.http({
 					url: "/user/login",
@@ -134,11 +124,13 @@
 						// debugger
 						console.log(res.data)
 						if (res.code == 1) {
-							
+
 							console.log("登录成功")
 							getApp().globalData.isVisitor = false;
 							//页面跳转
 							uni.setStorageSync('token', res.data.token);
+							uni.setStorageSync('userInfo', res.data);
+
 							// getApp().globalData.token = res.data.token;
 							this.http({
 								url: "/user/cidRegister",
@@ -148,11 +140,12 @@
 								},
 								success: res => {
 									console.log("cid注册成功")
+									uni.reLaunch({
+										url: '../index/index',
+									});
 								}
 							});
-							uni.reLaunch({
-								url: '../index/index',
-							});
+
 						}
 
 					}
