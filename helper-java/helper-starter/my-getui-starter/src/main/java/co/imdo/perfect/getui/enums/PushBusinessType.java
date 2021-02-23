@@ -7,7 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PushBusinessType {
 
-    DEFAULT("default", "默认");
+    DEFAULT("default", "默认"),
+    CHAT("chat", "聊天"),
+
+
+    ;
 
     private String type;
     private String desc;

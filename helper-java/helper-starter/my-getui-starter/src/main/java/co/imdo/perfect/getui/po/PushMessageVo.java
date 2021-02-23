@@ -8,5 +8,5 @@ public class PushMessageVo {
     private String cid;
     private String title;
     private String message;
-    private PushBusinessType type;
+    private PushBusinessType type = PushBusinessType.DEFAULT;
 }

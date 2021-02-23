@@ -14,4 +14,11 @@ import helper.entity.TtUserDevice;
  */
 public interface ITtUserDeviceService extends IService<TtUserDevice> {
 
+    /**
+     * 根据用户查询
+     *
+     * @param userId
+     * @return
+     */
+    TtUserDevice getOneByUserId(Integer userId);
 }

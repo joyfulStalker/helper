@@ -52,5 +52,13 @@ public class BizException extends RuntimeException {
     public static final BizException BIZ_ACTUAL_MONEY_GREATER_TOTAL_MONEY_EXCEPTION = new BizException(10051001, "总账不能小于实际金额！");
     public static final BizException BIZ_RECORD_FAIL_EXCEPTION = new BizException(10051002, "账务记录失败，请刷新重试！");
 
+    /**
+     * 通知相关异常 1006开头
+     */
+    public static final BizException BIZ_NOTICE_NO_SUCH_USER = new BizException(10061001, "消息目标不存在！");
+
 
 }
+
+
+
