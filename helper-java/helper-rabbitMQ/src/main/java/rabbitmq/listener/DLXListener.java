@@ -10,9 +10,10 @@ import java.io.IOException;
 @Configuration
 public class DLXListener {
 
-    @RabbitListener(queues = "dlx_queue")
+    @RabbitListener(queues = "order_queue")
     public void dlxListener(Message message, Channel channel) throws IOException {
         System.out.println(new String(message.getBody()));
+        System.out.println(System.currentTimeMillis());
         //对消息进行业务处理....
         channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
