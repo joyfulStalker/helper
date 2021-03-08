@@ -1,8 +1,6 @@
 package co.imdo.perfect.utils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,16 +32,13 @@ public class ReflectUtil {
      * @param value
      */
     public static void invoke(Object obj, String key, String value) {
-        String firstWord = key.substring(0, 1);
-        Method declaredMethod = null;
         try {
-            declaredMethod = obj.getClass().getDeclaredMethod("set" + key.replaceFirst(firstWord, firstWord.toUpperCase()), String.class);
-            declaredMethod.invoke(obj, value);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            Field field = obj.getClass().getDeclaredField(key);
+            field.setAccessible(true);
+            field.set(obj, value);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
     }
