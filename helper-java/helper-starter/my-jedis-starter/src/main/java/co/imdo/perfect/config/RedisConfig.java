@@ -2,6 +2,7 @@ package co.imdo.perfect.config;
 
 import co.imdo.perfect.properties.RedisShaKeys;
 import co.imdo.perfect.utils.ReflectUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -22,6 +23,7 @@ import java.util.Set;
  * @author liu
  * Redis 配置类
  */
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(RedisProperties.class)
 public class RedisConfig {
@@ -85,7 +87,7 @@ public class RedisConfig {
                 redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("redislua/" + redisKey + ".lua")));
                 redisScript.setResultType(Boolean.class);
                 String sha1 = jedis.scriptLoad(redisScript.getScriptAsString());
-                System.out.println("the sha1's value of " + redisKey + " is: " + sha1);
+                log.info("the sha1's value of " + redisKey + " is: " + sha1);
                 ReflectUtil.invoke(redisKeys, redisKey, sha1);
             }
         } catch (Exception e) {

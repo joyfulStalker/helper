@@ -19,7 +19,7 @@ public class SendStrategyFactory {
 
     private Map<Integer, SendStrategy> strategyFactoryMap;
 
-    public SendStrategyFactory() {
+    private SendStrategyFactory() {
         List<SendStrategy> strategies = Lists.newArrayList();
         strategies.add(new SendMailStrategy());
         strategies.add(new SendShortMsgStrategy());
@@ -27,7 +27,7 @@ public class SendStrategyFactory {
         strategyFactoryMap = strategies.stream().collect(Collectors.toMap(sendStrategy -> sendStrategy.getSendType().getValue(), sendStrategy -> sendStrategy));
     }
 
-    public static class Holder {
+    private static class Holder {
         public static SendStrategyFactory instance = new SendStrategyFactory();
     }
 
