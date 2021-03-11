@@ -11,20 +11,22 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static co.imdo.perfect.enums.MyMqBizEnum.MY_TEST;
+
 /**
  * 参考文档 https://www.cnblogs.com/hsz-csy/p/11332418.html
  */
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${sunspring.order.exchange:order_exchange}")
-    private String orderExchange;
-
-    @Value("${sunspring.order.queue:order_queue}")
-    private String orderQueue;
-
-    @Value("${sunspring.order.routingKey:order_routingKey}")
-    private String orderRoutingKey;
+//    @Value("${sunspring.order.exchange:order_exchange}")
+//    private String orderExchange;
+//
+//    @Value("${sunspring.order.queue:order_queue}")
+//    private String orderQueue;
+//
+//    @Value("${sunspring.order.routingKey:order_routingKey}")
+//    private String orderRoutingKey;
 
 //    @Value("${sunspring.dlx.exchange:dlx_exchange}")
 //    private String dlxExchange;
@@ -73,7 +75,7 @@ public class RabbitMQConfig {
     public CustomExchange orderExchange() {
         Map<String, Object> args = new HashMap<>();
         args.put("x-delayed-type", "direct");
-        return new CustomExchange(orderExchange, "x-delayed-message", true, false, args);
+        return new CustomExchange(MY_TEST.getExchange(), "x-delayed-message", true, false, args);
     }
 
     /**
@@ -87,7 +89,7 @@ public class RabbitMQConfig {
         // 绑定该队列到私信交换机
 //        arguments.put("x-dead-letter-exchange",dlxExchange);
 //        arguments.put("x-dead-letter-routing-key",dlxRoutingKey);
-        return new Queue(orderQueue, true);
+        return new Queue(MY_TEST.getQueue(), true);
     }
 
     /**
@@ -97,8 +99,9 @@ public class RabbitMQConfig {
      */
     @Bean
     public Binding orderBinding() {
+
         return BindingBuilder.bind(orderQueue())
                 .to(orderExchange())
-                .with(orderRoutingKey).noargs();
+                .with(MY_TEST.getRoutingKey()).noargs();
     }
 }

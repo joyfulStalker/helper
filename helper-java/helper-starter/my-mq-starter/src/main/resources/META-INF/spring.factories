@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+co.imdo.perfect.config.MyMqConfig,\
+co.imdo.perfect.service.impl.MyMqServiceImpl,\
+co.imdo.perfect.callback.MyMqConfirmCallback

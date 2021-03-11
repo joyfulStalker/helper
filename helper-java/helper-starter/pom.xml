@@ -10,6 +10,7 @@
     <modules>
         <module>my-getui-starter</module>
         <module>my-jedis-starter</module>
+        <module>my-mq-starter</module>
     </modules>
     <packaging>pom</packaging>
     <dependencyManagement>
