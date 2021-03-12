@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R baseExceptionHandler(HttpServletResponse response, Exception e) {
         e.printStackTrace();
-        return new R(BaseCode.ERROR_UNKNOWN, "系统错误，赶紧联系你哥！！！");
+        return new R(BaseCode.ERROR_UNKNOWN, "系统错误！");
     }
 
 }
